@@ -1,0 +1,22 @@
+{
+  "name": "quick-js",
+  "version": "0.0.0",
+  "description": "a bunch of random js tidbits",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LincolnColeHoward/quick-js.git"
+  },
+  "author": "Lincoln Howard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LincolnColeHoward/quick-js/issues"
+  },
+  "homepage": "https://github.com/LincolnColeHoward/quick-js#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "less": "^2.7.1"
+  }
+}
