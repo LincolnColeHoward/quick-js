@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "description": "a bunch of random js tidbits",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LincolnColeHoward/quick-js.git"
@@ -16,6 +15,7 @@
   },
   "homepage": "https://github.com/LincolnColeHoward/quick-js#readme",
   "dependencies": {
+    "busboy": "^0.2.13",
     "express": "^4.14.0",
     "less": "^2.7.1"
   }
