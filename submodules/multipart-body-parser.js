@@ -11,6 +11,7 @@ function onfiledata (body, fieldname, filename) {
 		},
 		// callback for when the form is complete
 		fin: function () {
+      console.log ('file end');
 			// check what we are adding to
 			if (Array.isArray (body [fieldname]))
 				// add to array
@@ -30,6 +31,7 @@ function onfiledata (body, fieldname, filename) {
 function onfielddata (body, fieldname, value) {
 	return {
 		fin: function () {
+      console.log ('field end');
 			if (Array.isArray (body [fieldname]))
 				return body [fieldname].push (value);
 			body [fieldname] = value;
@@ -57,7 +59,7 @@ function onfinishload (body, fields, fins, next) {
 		next ();
 	}
 }
-
+// export the middleware
 module.exports = function (req, res, next) {
 	// busboy instance
 	let busboy = new Busboy ({headers: req.headers});
@@ -69,13 +71,15 @@ module.exports = function (req, res, next) {
 	let fins = [];
 	// file events
 	busboy.on ('file', (fieldname, file, filename) => {
+    console.log ('file start');
 		fields.push (fieldname);
 		let callbacks = onfiledata (req.body, fieldname, filename);
 		file.on ('data', callbacks.ondata);
-		file.on ('end', () => {fins.push (callbacks.fin)});
+		file.on ('end', () => {console.log ('file loaded'); fins.push (callbacks.fin)});
 	});
 	// field events
 	busboy.on ('field', (fieldname, value) => {
+    console.log ('field start');
 		fields.push (fieldname);
 		fins.push (onfielddata (req.body, fieldname, value).fin);
 	});
