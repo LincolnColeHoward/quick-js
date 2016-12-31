@@ -1,5 +1,10 @@
 'use strict'
 let math = require ('mathjs');
+let bignumber = math.bignumber;
+let add = math.add;
+let sub = math.subtract;
+let div = math.divide;
+let mul = math.multiply;
 let latt = Symbol ();
 let long = Symbol ();
 // convert long/latt to theta/phi
@@ -26,12 +31,12 @@ class Coordinate {
     temp += math.pow (math.sin (delta_lattitude / 2), 2);
     return math.atan2 (math.sqrt (temp), math.sqrt (1 - temp));
   }
-  // true if equal
+  // true if equal.. otherwise false
   equals (RHS) {
     return this [long] === RHS [long] && this [latt] === RHS [latt];
   }
 
-  serialize () {
+  toJSON () {
     return [this [long], this [latt]];
   }
 }

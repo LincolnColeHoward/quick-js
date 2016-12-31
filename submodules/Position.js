@@ -33,12 +33,12 @@ class Position {
     }
   }
 
-  serialize () {
+  toJSON () {
     if (this [arr].length === 1 && this [arr] [0] instanceof Coordinate)
-      return this [arr] [0].serialize ();
+      return this [arr] [0].toJSON ();
     let ret = [];
     this [arr].forEach ((el) => {
-      ret.push (el.serialize ());
+      ret.push (el.toJSON ());
     });
     return ret;
   }
