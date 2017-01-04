@@ -13,15 +13,11 @@ class Geometry {
   get type () {
     return this [TYPE];
   }
-  // access the position object, exposes methods of position
-  get coordinates () {
-    return this [POS];
-  }
   // override the toJSON to actually do what we want!
   toJSON () {
     return {
       type: this [TYPE],
-      coordinates: this [POS]
+      coordinates: this [POS].toJSON ()
     }
   }
 }

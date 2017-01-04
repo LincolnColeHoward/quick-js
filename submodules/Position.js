@@ -33,6 +33,10 @@ class Position {
     }
   }
 
+  at (index) {
+    
+  }
+
   toJSON () {
     if (this [arr].length === 1 && this [arr] [0] instanceof Coordinate)
       return this [arr] [0].toJSON ();
