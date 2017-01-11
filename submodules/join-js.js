@@ -23,11 +23,13 @@ module.exports = function (dir) {
 	});
 	// unminified
 	router.get ('/source.js', (req, res) => {
+		// use strict for all
+		res.write ('\'use strict\'\n');
 		// list the directory
 		let files = fs.readdirSync (source);
 		// write the minified file to stream
 		files.forEach ((file) => {
-			res.write (fs.readFileSync (path.join (source, file)));
+			res.write (fs.readFileSync (path.join (source, file)) + '\n');
 		});
 		// close!
 		res.end ();

@@ -1,4 +1,3 @@
-'use strict'
 // declare the formify function
 let formify;
 (function () {
