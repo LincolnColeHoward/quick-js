@@ -7,7 +7,9 @@ let submodules = {
     Geometry: require ('./submodules/Geometry'),
     Coordinate: require ('./submodules/Coordinate'),
     Position: require ('./submodules/Position')
-  }
+  },
+  'join-js': require ('./submodules/join-js'),
+  'client-library': require ('express').static ('client side')
 }
 // submodule loader function
 module.exports = function Quick (submodule) {
