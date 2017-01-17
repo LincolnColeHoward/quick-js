@@ -22,4 +22,5 @@ class Geometry {
   }
 }
 
+Geometry.coordinates = POS;
 module.exports = Geometry;

@@ -4,8 +4,7 @@
   "description": "a bunch of random js tidbits",
   "main": "index.js",
   "scripts": {
-    "predoc": "./node_modules/.bin/esdoc",
-    "doc": "node serve_docs"
+    "doc": "./node_modules/.bin/esdoc"
   },
   "repository": {
     "type": "git",

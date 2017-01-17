@@ -1,15 +1,17 @@
 'use strict'
 // a list of the modules
 let submodules = {
-	'less-live-load': require ('./submodules/less-live-load'),
-	'form-data-body-parser': require ('./submodules/multipart-body-parser'),
+	'less-live-load': require ('./src/submodules/less-live-load'),
+	'form-data-body-parser': require ('./src/submodules/multipart-body-parser'),
   'geo-json': {
-    Geometry: require ('./submodules/Geometry'),
-    Coordinate: require ('./submodules/Coordinate'),
-    Position: require ('./submodules/Position')
+    Geometry: require ('./src/submodules/Geometry'),
+    Coordinate: require ('./src/submodules/Coordinate'),
+    Position: require ('./src/submodules/Position'),
+    Point: require ('./src/submodules/Point'),
+    MultiPoint: require ('./src/submodules/MultiPoint')
   },
-  'join-js': require ('./submodules/join-js'),
-  'client-library': require ('express').static ('client side')
+  'join-js': require ('./src/submodules/join-js'),
+  'client-library': require ('express').static ('src/client side')
 }
 // submodule loader function
 module.exports = function Quick (submodule) {

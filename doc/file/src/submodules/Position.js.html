@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/submodules/Position.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/LincolnColeHoward/quick-js" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/submodules/Position.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+let Coordinate = require (&apos;./Coordinate&apos;);
+let arr = Symbol ();
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.1
+  * 
+  * A position is an abstract, list-like structure
+  * conatining coordinates or other position objects.
+  * A Position can represent the coordinates attribute
+  * of any GeoJSON geometry object.
+  */
+class Position {
+  /**
+    * Initializes the array, ignores all arguments.
+    */
+  constructor () {
+    this [arr] = [];
+  }
+  /**
+    * Adds a coordinate or position at an optionally provided position index.
+    * 
+    * @param {Coordinate|Position} coordinate The coordinte object to add.
+    * @param (Number) [position] Index of the position object to add it to.
+    * @returns {Position} Returns &apos;this&apos; object
+    * @throws {Error} If coordinate argument is not a valid type.
+    */
+  add (coordinate, position) {
+    let pos = !!position;
+    if (coordinate instanceof Coordinate) {
+      if (pos) {
+        this [arr][pos].push (coordinate);
+      } else {
+        this [arr].push (coordinate);
+      }
+    } else if (coordinate instanceof Position) {
+      if (pos) {
+        this [arr][pos].push (coordinate);
+      } else {
+        this [arr].push (coordinate);
+      }
+    } else {
+      throw new Error (&apos;added points must be &quot;coordinate&quot; or &quot;position&quot; type&apos;);
+    }
+    return this;
+  }
+  /**
+    * Removes the first instance found of the provided Coordinate or Position.
+    * 
+    * @param {Coordinate|Position} coordinate The element to remove.
+    * @return {Position} Returns &apos;this&apos; object
+    */
+  remove (coordinate) {
+    if (coordinate instanceof Coordinate || coordinate instanceof Position) {
+      for (let i = 0; i &lt; this.length; i++)
+        if (coordinate.equals (this [i])) {
+          this [arr].splice (i, 1);
+          return this;
+        }
+    } else {
+      throw new Error (&apos;can only remove &quot;coordinate&quot; or &quot;position&quot; types&apos;);
+    }
+    return this;
+  }
+  /**
+    * Access the element at the provided index.
+    * 
+    * @param {Number} index The index to access.
+    * @returns {Coordinate|Position} The element found.
+    */
+  at (index) {
+    return this [arr] [index];
+  }
+  /**
+    * Checks if the provided element is in this Position.
+    * 
+    * @param {Coordinate|Position} element The element to look for.
+    * @return {boolean} Whether the element is in this Position.
+    */
+  has (element) {
+    if (!(element instanceof Coordinate || element instanceof Position))
+      throw new Error (&apos;provided argument must be Coordinate or Position type&apos;);
+    this [arr].forEach ((_this) =&gt; {
+      if (element.equals (_this))
+        return true;
+    });
+  }
+  /**
+    * Get the Number of elements in this Position.
+    * This is a one-dimensional search
+    * and does not count sub-position coordinates or positions
+    * 
+    * @returns {Number} The size of this Position.
+    */
+  size () {
+    return this [arr].length;
+  }
+  /**
+    * Check equality of this position and another position.
+    * Compares all coordinates and sub-coordinates.
+    * 
+    * @param {Position} position The position to compare against.
+    * @returns {boolean} True if all coordinates and sub-coordinates are equal.
+    */
+  equals (position) {
+    if (!(position instanceof Position)) return false;
+    if (this.size () !== element.size ()) return false;
+    for (let i = 0; i &lt; this.size (); i++)
+      if (!this.at (i).equals (position.at (i)));
+        return false;
+    return true;
+  }
+  /**
+    * @override
+    */
+  toJSON () {
+    if (this [arr].length === 1 &amp;&amp; this [arr] [0] instanceof Coordinate)
+      return this [arr] [0].toJSON ();
+    let ret = [];
+    this [arr].forEach ((el) =&gt; {
+      ret.push (el.toJSON ());
+    });
+    return ret;
+  }
+}
+
+module.exports = Position</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

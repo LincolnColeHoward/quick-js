@@ -1,0 +1,2803 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "name": "src/client side/formify.js",
+    "content": "// declare the formify function\nlet formify;\n(function () {\n\t// events on form submit and when we get a response\n\tlet submitEvt = new Event ('form-submit');\n\tformify = (element) => {\n\t\t// get any relevant input field with a name\n\t\tlet inputs = Array.from (element.querySelectorAll ('select[name],input[name],textarea[name]'));\n\t\t// get the submit button\n\t\tlet submit = element.querySelector ('button[type=\"submit\"],input[type=\"submit\"]');\n\t\t// get path from the element, every formdata is a post and enctype is multipart/form-data\n\t\tlet path = element.getAttribute ('action');\n\t\t// attach events\n\t\telement.addEventListener ('form-submit', function () {\n\t\t\t// setup the request\n\t\t\tlet xhr = new XMLHttpRequest ();\n\t\t\txhr.open ('POST', path);\n\t\t\txhr.addEventListener ('load', function () {\n\t\t\t\t// custom event with detail of the xhr response\n\t\t\t\tlet responseEvt = new CustomEvent ('form-submit-response', {\n\t\t\t\t\tdetail: xhr.response\n\t\t\t\t});\n\t\t\t\telement.dispatchEvent (responseEvt);\n\t\t\t});\n\t\t\t// start collecting form data\n\t\t\tlet data = new FormData ();\n\t\t\tinputs.forEach ((input) => {\n        // file case\n\t\t\t\tif (input.type === 'file') {\n\t\t\t\t\t// multiple files\n\t\t\t\t\tif (input.files.length > 1) {\n\t\t\t\t\t\tinput.files.forEach ((file) => {\n\t\t\t\t\t\t\tdata.append (input.name, file, file.name);\n\t\t\t\t\t\t});\n\t\t\t\t\t// single file\n\t\t\t\t\t} else if (input.files.length !== 0) {\n\t\t\t\t\t\tdata.append (input.name, input.files [0], input.files [0].name);\n          }\n\t\t\t\t} else {\n\t\t\t\t\tdata.append (input.name, input.value);\n        }\n\t\t\t});\n\t\t\t// send the form data\n\t\t\txhr.send (data);\n\t\t}, false);\n\t\t// the submit button triggers the form-submit\n\t\tsubmit.addEventListener ('click', () => {\n\t\t\telement.dispatchEvent (submitEvt);\n\t\t});\n\t}\n\t// formiify all requested\n  Array.from (document.querySelectorAll ('[formify]')).forEach ((form) => {\n    formify (form);\n  })\n}) ();",
+    "static": true,
+    "longname": "src/client side/formify.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 1,
+    "kind": "file",
+    "name": "src/client side/path.js",
+    "content": "'use strict'\n// path methods\nlet path = {\n\t// break up arguments into the smallest segments\n\tsegmentize: function segmentize () {\n\t\tlet segments = [];\n\t\tArray.from (arguments).forEach ((arg) => {\n\t\t\tsegments = segments.concat (arg.split ('/'));\n\t\t});\n\t\treturn segments;\n\t},\n\t// build a url from a set of strings\n\tjoin: function join () {\n\t\tlet segments = path.segmentize.apply (null, arguments);\n\t\t// interpret meaning of segments\n\t\tlet uri = [];\n\t\tsegments.forEach ((segment) => {\n\t\t\t// could be empty, '.', '..', or have meaning\n\t\t\tswitch (segment) {\n\t\t\t\tcase '':\n\t\t\t\t\tif (!uri.length) uri.push (segment);\n\t\t\t\t\tbreak;\n\t\t\t\tcase '.':\n\t\t\t\t\tbreak;\n\t\t\t\tcase '..':\n\t\t\t\t\tif (uri.length) uri.pop ();\n\t\t\t\t\tbreak;\n\t\t\t\tdefault:\n\t\t\t\t\turi.push (segment);\n\t\t\t}\n\t\t});\n\t\t// return the segments joined by the separator\n\t\treturn uri.join ('/');\n\t},\n\t// parameterize whole uri\n\tparameterize: function (uri, params) {\n\t\tlet ret = '';\n\t\tpath.segmentize (uri).forEach ((seg) => {\n\t\t\tret = path.join (ret, path.parameterizeSegment (seg, params));\n\t\t});\n\t\treturn ret;\n\t},\n\t// replace parameters into uri segment\n\tparameterizeSegment: function (segment, params) {\n\t\t// find where to insert stuff, store here\n\t\tlet inserts = [];\n\t\t// first index of parameter\n\t\tlet pos = segment.indexOf (':');\n\t\t// loop until no more parameters are found\n\t\twhile (pos !== -1) {\n\t\t\t// prepare delimiter as the end of line\n\t\t\tlet delim = segment.length;\n\t\t\t// find the delimiter\n\t\t\tlet dot = segment.indexOf ('.', pos + 1);\n\t\t\tlet colon = segment.indexOf (':', pos + 1);\n\t\t\tlet hyphen = segment.indexOf ('-', pos + 1);\n\t\t\t// if not found, set to infinity\n\t\t\tif (dot === -1) dot = Infinity;\n\t\t\tif (colon === -1) colon = Infinity;\n\t\t\tif (hyphen === -1) hyphen = Infinity;\n\t\t\t// select lowest number\n\t\t\tif (dot < delim) delim = dot;\n\t\t\tif (colon < delim) delim = colon;\n\t\t\tif (hyphen < delim) delim = hyphen;\n\t\t\t// set the beginning and end of each parameter\n\t\t\tinserts.push ({\n\t\t\t\tstart: pos,\n\t\t\t\tend: delim,\n\t\t\t\tname: segment.substring (pos + 1, delim)\n\t\t\t});\n\t\t\tpos = segment.indexOf (':', pos + 1);\n\t\t}\n\t\t// segmentize the segments\n\t\tlet arr = segment.split ('');\n\t\t// loop until no more inserts are needed\n\t\twhile (inserts.length) {\n\t\t\t// get the farthest segment from 0\n\t\t\tlet el = inserts.pop ();\n\t\t\t// make sure the argument is provided\n\t\t\tif (params [el.name]) {\n\t\t\t\t// insert the argument\n\t\t\t\tarr.splice (el.start, el.end - el.start, params [el.name]);\n\t\t\t}\n\t\t}\n\t\treturn arr.join ('');\n\t}\n}",
+    "static": true,
+    "longname": "src/client side/path.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 2,
+    "kind": "variable",
+    "name": "path",
+    "memberof": "src/client side/path.js",
+    "static": true,
+    "longname": "src/client side/path.js~path",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/client side/path.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{\"segmentize\": *, \"join\": *, \"parameterize\": *, \"parameterizeSegment\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 3,
+    "kind": "file",
+    "name": "src/submodules/Coordinate.js",
+    "content": "'use strict'\nlet math = require ('mathjs');\nlet bignumber = math.bignumber;\nlet add = math.add;\nlet sub = math.subtract;\nlet div = math.divide;\nlet mul = math.multiply;\nlet latt = Symbol ();\nlet long = Symbol ();\n// convert long/latt to theta/phi\nfunction toRadians (coord) {\n  return [coord [long] * math.pi / 180, coord [latt] * math.pi / 180]\n}\n// a coordinate is a 2 point array\nclass Coordinate {\n  // setup one coordinate\n  constructor (longitude = 0, lattitude = 0) {\n    this [long] = longitude;\n    this [latt] = lattitude;\n  }\n  // getters and setters\n  get longitude () {\n    return this [long];\n  }\n  set longitude (value) {\n    this [long] = value;\n  }\n  get lattitude () {\n    return this [latt];\n  }\n  set lattitude (value) {\n    this [latt] = value;\n  }\n  // calulates the distance between two coordinates\n  // distance on unit circle (aka radians)\n  // haverstein distance formula\n  unitDistance (point) {\n    let p1_rad = toRadians (this);\n    let p2_rad = toRadians (point);\n    let delta_longitude = p1_rad [0] - p2_rad [0];\n    let delta_lattitude = p1_rad [1] - p2_rad [1];\n    let temp = math.pow (math.sin (delta_longitude / 2), 2);\n    temp *=  math.cos (p1_rad [1]) * math.cos (p2_rad [1]);\n    temp += math.pow (math.sin (delta_lattitude / 2), 2);\n    return math.atan2 (math.sqrt (temp), math.sqrt (1 - temp));\n  }\n  // true if equal.. otherwise false\n  equals (RHS) {\n    if (!(RHS instanceof Coordinate)) return false;\n    return this [long] === RHS [long] && this [latt] === RHS [latt];\n  }\n\n  toJSON () {\n    return [this [long], this [latt]];\n  }\n}\nmodule.exports = Coordinate;",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 4,
+    "kind": "variable",
+    "name": "math",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~math",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 5,
+    "kind": "variable",
+    "name": "bignumber",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~bignumber",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 6,
+    "kind": "variable",
+    "name": "add",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~add",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 7,
+    "kind": "variable",
+    "name": "sub",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~sub",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 8,
+    "kind": "variable",
+    "name": "div",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~div",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "variable",
+    "name": "mul",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~mul",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 10,
+    "kind": "variable",
+    "name": "latt",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~latt",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "variable",
+    "name": "long",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~long",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 12,
+    "kind": "function",
+    "name": "toRadians",
+    "memberof": "src/submodules/Coordinate.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~toRadians",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "coord",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 13,
+    "kind": "class",
+    "name": "Coordinate",
+    "memberof": "src/submodules/Coordinate.js",
+    "static": true,
+    "longname": "src/submodules/Coordinate.js~Coordinate",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Coordinate.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 14,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "longitude",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 0,
+        "defaultValue": "0"
+      },
+      {
+        "name": "lattitude",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 0,
+        "defaultValue": "0"
+      }
+    ]
+  },
+  {
+    "__docId__": 15,
+    "kind": "member",
+    "name": "[long]",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#[long]",
+    "access": null,
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 16,
+    "kind": "member",
+    "name": "[latt]",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#[latt]",
+    "access": null,
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 17,
+    "kind": "get",
+    "name": "longitude",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#longitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 18,
+    "kind": "set",
+    "name": "longitude",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#longitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 19,
+    "kind": "member",
+    "name": "[long]",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#[long]",
+    "access": null,
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 20,
+    "kind": "get",
+    "name": "lattitude",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#lattitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 28,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "set",
+    "name": "lattitude",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#lattitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 22,
+    "kind": "member",
+    "name": "[latt]",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#[latt]",
+    "access": null,
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 23,
+    "kind": "method",
+    "name": "unitDistance",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#unitDistance",
+    "access": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "point",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "method",
+    "name": "equals",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#equals",
+    "access": null,
+    "description": null,
+    "lineNumber": 48,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "RHS",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "method",
+    "name": "toJSON",
+    "memberof": "src/submodules/Coordinate.js~Coordinate",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Coordinate.js~Coordinate#toJSON",
+    "access": null,
+    "description": null,
+    "lineNumber": 53,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 26,
+    "kind": "file",
+    "name": "src/submodules/Geometry.js",
+    "content": "'use strict'\n// import and symbols\nlet Position = require ('./Position');\nlet TYPE = Symbol ();\nlet POS = Symbol ();\nclass Geometry {\n  // defualt for any geometry object\n  constructor (type) {\n    this [TYPE] = type;\n    this [POS] = new Position ();\n  }\n  // accessor for type attribute\n  get type () {\n    return this [TYPE];\n  }\n  // override the toJSON to actually do what we want!\n  toJSON () {\n    return {\n      type: this [TYPE],\n      coordinates: this [POS].toJSON ()\n    }\n  }\n}\n\nGeometry.coordinates = POS;\nmodule.exports = Geometry;",
+    "static": true,
+    "longname": "src/submodules/Geometry.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 27,
+    "kind": "variable",
+    "name": "Position",
+    "memberof": "src/submodules/Geometry.js",
+    "static": true,
+    "longname": "src/submodules/Geometry.js~Position",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Geometry.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 28,
+    "kind": "variable",
+    "name": "TYPE",
+    "memberof": "src/submodules/Geometry.js",
+    "static": true,
+    "longname": "src/submodules/Geometry.js~TYPE",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Geometry.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 29,
+    "kind": "variable",
+    "name": "POS",
+    "memberof": "src/submodules/Geometry.js",
+    "static": true,
+    "longname": "src/submodules/Geometry.js~POS",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Geometry.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "class",
+    "name": "Geometry",
+    "memberof": "src/submodules/Geometry.js",
+    "static": true,
+    "longname": "src/submodules/Geometry.js~Geometry",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Geometry.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 31,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/Geometry.js~Geometry",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Geometry.js~Geometry#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "type",
+        "types": [
+          "*"
+        ]
+      }
+    ]
+  },
+  {
+    "__docId__": 32,
+    "kind": "member",
+    "name": "[TYPE]",
+    "memberof": "src/submodules/Geometry.js~Geometry",
+    "static": false,
+    "longname": "src/submodules/Geometry.js~Geometry#[TYPE]",
+    "access": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "member",
+    "name": "[POS]",
+    "memberof": "src/submodules/Geometry.js~Geometry",
+    "static": false,
+    "longname": "src/submodules/Geometry.js~Geometry#[POS]",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 34,
+    "kind": "get",
+    "name": "type",
+    "memberof": "src/submodules/Geometry.js~Geometry",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Geometry.js~Geometry#type",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 35,
+    "kind": "method",
+    "name": "toJSON",
+    "memberof": "src/submodules/Geometry.js~Geometry",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Geometry.js~Geometry#toJSON",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [],
+    "return": {
+      "types": [
+        "{\"type\": *, \"coordinates\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "file",
+    "name": "src/submodules/MultiPoint.js",
+    "content": "'use strict'\nlet Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\n// GeoJSON MultiPoint\nmodule.exports = class MultiPoint extends Geometry {\n\tconstructor () {\n\t\tsuper ('MultiPoint');\n\t}\n\tadd (coord) {\n\t\tif (coord instanceof Coordinate)\n\t\t\tthis [POS].add (coord);\n\t}\n\tat () {\n\n\t}\n\tremove (coord) {\n\t\tif (coord instanceof Coordinate)\n\t\t\tthis [POS].remove (coord);\n\t}\n}",
+    "static": true,
+    "longname": "src/submodules/MultiPoint.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 37,
+    "kind": "variable",
+    "name": "Coordinate",
+    "memberof": "src/submodules/MultiPoint.js",
+    "static": true,
+    "longname": "src/submodules/MultiPoint.js~Coordinate",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/MultiPoint.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "variable",
+    "name": "Geometry",
+    "memberof": "src/submodules/MultiPoint.js",
+    "static": true,
+    "longname": "src/submodules/MultiPoint.js~Geometry",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/MultiPoint.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 39,
+    "kind": "variable",
+    "name": "POS",
+    "memberof": "src/submodules/MultiPoint.js",
+    "static": true,
+    "longname": "src/submodules/MultiPoint.js~POS",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/MultiPoint.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 40,
+    "kind": "class",
+    "name": "exports",
+    "memberof": "src/submodules/MultiPoint.js",
+    "static": true,
+    "longname": "src/submodules/MultiPoint.js~exports",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/MultiPoint.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Geometry"
+    ]
+  },
+  {
+    "__docId__": 41,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/MultiPoint.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/MultiPoint.js~exports#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": []
+  },
+  {
+    "__docId__": 42,
+    "kind": "method",
+    "name": "add",
+    "memberof": "src/submodules/MultiPoint.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/MultiPoint.js~exports#add",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "coord",
+        "types": [
+          "*"
+        ]
+      }
+    ]
+  },
+  {
+    "__docId__": 43,
+    "kind": "method",
+    "name": "at",
+    "memberof": "src/submodules/MultiPoint.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/MultiPoint.js~exports#at",
+    "access": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": []
+  },
+  {
+    "__docId__": 44,
+    "kind": "method",
+    "name": "remove",
+    "memberof": "src/submodules/MultiPoint.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/MultiPoint.js~exports#remove",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "coord",
+        "types": [
+          "*"
+        ]
+      }
+    ]
+  },
+  {
+    "__docId__": 45,
+    "kind": "file",
+    "name": "src/submodules/Point.js",
+    "content": "'use strict'\nlet Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\n/**\n\t* Implementation of rfc7946 (GeoJSON) Section 3.1.2\n\t* \n\t* Points are single coordinate geometry objects.\n\t*/\nclass Point extends Geometry {\n\t/**\n\t\t* Initializes the longitude and lattitude.\n\t\t* \n\t\t*\t@param {number} [longitude=0] The initial longitude.\n\t\t*\t@param {number} [lattitude=0] The initial lattitude.\n\t\t*/\n\tconstructor (longitude = 0, lattitude = 0) {\n\t\tsuper ('Point');\n\t\tthis [POS].add (new Coordinate (longitude, lattitude));\n\t}\n\tget longitude () {\n\t\treturn this [POS].at (0).longitude;\n\t}\n\tset longitude (value) {\n\t\tthis [POS].at (0).longitude = value;\n\t}\n\tget lattitude () {\n\t\treturn this [POS].at (0).lattitude;\n\t}\n\tset lattitude (value) {\n\t\tthis [POS].at (0).lattitude = value;\n\t}\n}\n\nmodule.exports = Point;",
+    "static": true,
+    "longname": "src/submodules/Point.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 46,
+    "kind": "variable",
+    "name": "Coordinate",
+    "memberof": "src/submodules/Point.js",
+    "static": true,
+    "longname": "src/submodules/Point.js~Coordinate",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Point.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "variable",
+    "name": "Geometry",
+    "memberof": "src/submodules/Point.js",
+    "static": true,
+    "longname": "src/submodules/Point.js~Geometry",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Point.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 48,
+    "kind": "variable",
+    "name": "POS",
+    "memberof": "src/submodules/Point.js",
+    "static": true,
+    "longname": "src/submodules/Point.js~POS",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Point.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "Point",
+    "memberof": "src/submodules/Point.js",
+    "static": true,
+    "longname": "src/submodules/Point.js~Point",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Point.js",
+    "importStyle": null,
+    "description": "Implementation of rfc7946 (GeoJSON) Section 3.1.2\n\nPoints are single coordinate geometry objects.",
+    "lineNumber": 10,
+    "interface": false,
+    "extends": [
+      "Geometry"
+    ]
+  },
+  {
+    "__docId__": 50,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/Point.js~Point",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Point.js~Point#constructor",
+    "access": null,
+    "description": "Initializes the longitude and lattitude.",
+    "lineNumber": 17,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "0",
+        "defaultRaw": 0,
+        "name": "longitude",
+        "description": "The initial longitude."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "0",
+        "defaultRaw": 0,
+        "name": "lattitude",
+        "description": "The initial lattitude."
+      }
+    ]
+  },
+  {
+    "__docId__": 51,
+    "kind": "get",
+    "name": "longitude",
+    "memberof": "src/submodules/Point.js~Point",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Point.js~Point#longitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "set",
+    "name": "longitude",
+    "memberof": "src/submodules/Point.js~Point",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Point.js~Point#longitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "get",
+    "name": "lattitude",
+    "memberof": "src/submodules/Point.js~Point",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Point.js~Point#lattitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "set",
+    "name": "lattitude",
+    "memberof": "src/submodules/Point.js~Point",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Point.js~Point#lattitude",
+    "access": null,
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "file",
+    "name": "src/submodules/Position.js",
+    "content": "'use strict'\nlet Coordinate = require ('./Coordinate');\nlet arr = Symbol ();\n/**\n  * Implementation of rfc7946 (GeoJSON) Section 3.1.1\n  * \n  * A position is an abstract, list-like structure\n  * conatining coordinates or other position objects.\n  * A Position can represent the coordinates attribute\n  * of any GeoJSON geometry object.\n  */\nclass Position {\n  /**\n    * Initializes the array, ignores all arguments.\n    */\n  constructor () {\n    this [arr] = [];\n  }\n  /**\n    * Adds a coordinate or position at an optionally provided position index.\n    * \n    * @param {Coordinate|Position} coordinate The coordinte object to add.\n    * @param (Number) [position] Index of the position object to add it to.\n    * @returns {Position} Returns 'this' object\n    * @throws {Error} If coordinate argument is not a valid type.\n    */\n  add (coordinate, position) {\n    let pos = !!position;\n    if (coordinate instanceof Coordinate) {\n      if (pos) {\n        this [arr][pos].push (coordinate);\n      } else {\n        this [arr].push (coordinate);\n      }\n    } else if (coordinate instanceof Position) {\n      if (pos) {\n        this [arr][pos].push (coordinate);\n      } else {\n        this [arr].push (coordinate);\n      }\n    } else {\n      throw new Error ('added points must be \"coordinate\" or \"position\" type');\n    }\n    return this;\n  }\n  /**\n    * Removes the first instance found of the provided Coordinate or Position.\n    * \n    * @param {Coordinate|Position} coordinate The element to remove.\n    * @return {Position} Returns 'this' object\n    */\n  remove (coordinate) {\n    if (coordinate instanceof Coordinate || coordinate instanceof Position) {\n      for (let i = 0; i < this.length; i++)\n        if (coordinate.equals (this [i])) {\n          this [arr].splice (i, 1);\n          return this;\n        }\n    } else {\n      throw new Error ('can only remove \"coordinate\" or \"position\" types');\n    }\n    return this;\n  }\n  /**\n    * Access the element at the provided index.\n    * \n    * @param {Number} index The index to access.\n    * @returns {Coordinate|Position} The element found.\n    */\n  at (index) {\n    return this [arr] [index];\n  }\n  /**\n    * Checks if the provided element is in this Position.\n    * \n    * @param {Coordinate|Position} element The element to look for.\n    * @return {boolean} Whether the element is in this Position.\n    */\n  has (element) {\n    if (!(element instanceof Coordinate || element instanceof Position))\n      throw new Error ('provided argument must be Coordinate or Position type');\n    this [arr].forEach ((_this) => {\n      if (element.equals (_this))\n        return true;\n    });\n  }\n  /**\n    * Get the Number of elements in this Position.\n    * This is a one-dimensional search\n    * and does not count sub-position coordinates or positions\n    * \n    * @returns {Number} The size of this Position.\n    */\n  size () {\n    return this [arr].length;\n  }\n  /**\n    * Check equality of this position and another position.\n    * Compares all coordinates and sub-coordinates.\n    * \n    * @param {Position} position The position to compare against.\n    * @returns {boolean} True if all coordinates and sub-coordinates are equal.\n    */\n  equals (position) {\n    if (!(position instanceof Position)) return false;\n    if (this.size () !== element.size ()) return false;\n    for (let i = 0; i < this.size (); i++)\n      if (!this.at (i).equals (position.at (i)));\n        return false;\n    return true;\n  }\n  /**\n    * @override\n    */\n  toJSON () {\n    if (this [arr].length === 1 && this [arr] [0] instanceof Coordinate)\n      return this [arr] [0].toJSON ();\n    let ret = [];\n    this [arr].forEach ((el) => {\n      ret.push (el.toJSON ());\n    });\n    return ret;\n  }\n}\n\nmodule.exports = Position",
+    "static": true,
+    "longname": "src/submodules/Position.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 56,
+    "kind": "variable",
+    "name": "Coordinate",
+    "memberof": "src/submodules/Position.js",
+    "static": true,
+    "longname": "src/submodules/Position.js~Coordinate",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Position.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "arr",
+    "memberof": "src/submodules/Position.js",
+    "static": true,
+    "longname": "src/submodules/Position.js~arr",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Position.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "class",
+    "name": "Position",
+    "memberof": "src/submodules/Position.js",
+    "static": true,
+    "longname": "src/submodules/Position.js~Position",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Position.js",
+    "importStyle": null,
+    "description": "Implementation of rfc7946 (GeoJSON) Section 3.1.1\n\nA position is an abstract, list-like structure\nconatining coordinates or other position objects.\nA Position can represent the coordinates attribute\nof any GeoJSON geometry object.",
+    "lineNumber": 12,
+    "interface": false
+  },
+  {
+    "__docId__": 59,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#constructor",
+    "access": null,
+    "description": "Initializes the array, ignores all arguments.",
+    "lineNumber": 16,
+    "params": []
+  },
+  {
+    "__docId__": 60,
+    "kind": "member",
+    "name": "[arr]",
+    "memberof": "src/submodules/Position.js~Position",
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#[arr]",
+    "access": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "name": "add",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#add",
+    "access": null,
+    "description": "Adds a coordinate or position at an optionally provided position index.",
+    "lineNumber": 27,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Position} Returns 'this' object"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Coordinate",
+          "Position"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "coordinate",
+        "description": "The coordinte object to add."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "(Number)",
+        "description": "[position] Index of the position object to add it to."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Position"
+      ],
+      "spread": false,
+      "description": "Returns 'this' object"
+    },
+    "throws": [
+      {
+        "types": [
+          "Error"
+        ],
+        "description": "If coordinate argument is not a valid type."
+      }
+    ]
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "remove",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#remove",
+    "access": null,
+    "description": "Removes the first instance found of the provided Coordinate or Position.",
+    "lineNumber": 52,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Coordinate",
+          "Position"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "coordinate",
+        "description": "The element to remove."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Position"
+      ],
+      "spread": false,
+      "description": "Returns 'this' object"
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "at",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#at",
+    "access": null,
+    "description": "Access the element at the provided index.",
+    "lineNumber": 70,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Coordinate|Position} The element found."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "index",
+        "description": "The index to access."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Coordinate",
+        "Position"
+      ],
+      "spread": false,
+      "description": "The element found."
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "name": "has",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#has",
+    "access": null,
+    "description": "Checks if the provided element is in this Position.",
+    "lineNumber": 79,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Coordinate",
+          "Position"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": "The element to look for."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "Whether the element is in this Position."
+    }
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "size",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#size",
+    "access": null,
+    "description": "Get the Number of elements in this Position.\nThis is a one-dimensional search\nand does not count sub-position coordinates or positions",
+    "lineNumber": 94,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Number} The size of this Position."
+      }
+    ],
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number"
+      ],
+      "spread": false,
+      "description": "The size of this Position."
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "method",
+    "name": "equals",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#equals",
+    "access": null,
+    "description": "Check equality of this position and another position.\nCompares all coordinates and sub-coordinates.",
+    "lineNumber": 104,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{boolean} True if all coordinates and sub-coordinates are equal."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Position"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "position",
+        "description": "The position to compare against."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": "True if all coordinates and sub-coordinates are equal."
+    }
+  },
+  {
+    "__docId__": 67,
+    "kind": "method",
+    "name": "toJSON",
+    "memberof": "src/submodules/Position.js~Position",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Position.js~Position#toJSON",
+    "access": null,
+    "description": "",
+    "lineNumber": 115,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "override": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "file",
+    "name": "src/submodules/join-js.js",
+    "content": "'use strict'\n// imports\nlet fs = require ('fs');\nlet path = require ('path');\nlet minify = require ('escompress').transform;\nlet express = require ('express');\n\nmodule.exports = function (dir) {\n\t// create router\n\tlet router = express.Router ();\n\t// find source directory relative to cwd\n\tlet source = path.join (process.cwd (), dir);\n\t// minified source\n\trouter.get ('/source.min.js', function (req, res) {\n\t\t// list the directory\n\t\tlet files = fs.readdirSync (source);\n\t\t// write the minified file to stream\n\t\tfiles.forEach ((file) => {\n\t\t\tres.write (minify (fs.readFileSync (path.join (source, file)), {}).code);\n\t\t});\n\t\t// close!\n\t\tres.end ();\n\t});\n\t// unminified\n\trouter.get ('/source.js', (req, res) => {\n\t\t// use strict for all\n\t\tres.write ('\\'use strict\\'\\n');\n\t\t// list the directory\n\t\tlet files = fs.readdirSync (source);\n\t\t// write the minified file to stream\n\t\tfiles.forEach ((file) => {\n\t\t\tres.write (fs.readFileSync (path.join (source, file)) + '\\n');\n\t\t});\n\t\t// close!\n\t\tres.end ();\n\t});\n\treturn router;\n}",
+    "static": true,
+    "longname": "src/submodules/join-js.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 69,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "src/submodules/join-js.js",
+    "static": true,
+    "longname": "src/submodules/join-js.js~fs",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/join-js.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 70,
+    "kind": "variable",
+    "name": "path",
+    "memberof": "src/submodules/join-js.js",
+    "static": true,
+    "longname": "src/submodules/join-js.js~path",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/join-js.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "variable",
+    "name": "minify",
+    "memberof": "src/submodules/join-js.js",
+    "static": true,
+    "longname": "src/submodules/join-js.js~minify",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/join-js.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "variable",
+    "name": "express",
+    "memberof": "src/submodules/join-js.js",
+    "static": true,
+    "longname": "src/submodules/join-js.js~express",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/join-js.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "function",
+    "name": "exports",
+    "memberof": "src/submodules/join-js.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/join-js.js~exports",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/join-js.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "dir",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "file",
+    "name": "src/submodules/less-live-load.js",
+    "content": "'use strict'\n// express middleware to live reload less source\nfunction LESSLIVELOAD (root) {\n\t// necessary functions\n\tlet router = require ('express').Router ();\n\tlet read = require ('fs').readFileSync;\n\tlet join = require ('path').join;\n\tlet less = require ('less');\n\t// get any less file as its compiled css self! \n\trouter.get ('/:source.css', (req, res) => {\n\t\tless.render (read (join (root, req.params.source + '.less'), 'utf-8'), (err, output) => {\n\t\t\tif (err) {\n\t\t\t\tconsole.log (err, output);\n\t\t\t\treturn res.status (404);\n\t\t\t}\n\t\t\t// let em know it's css and send the compiled code\n\t\t\tres.set ('Content-Type', 'text/css');\n\t\t\tres.send (output.css);\n\t\t})\n\t});\n\n\treturn router;\n}\n\nmodule.exports = LESSLIVELOAD;",
+    "static": true,
+    "longname": "src/submodules/less-live-load.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 75,
+    "kind": "function",
+    "name": "LESSLIVELOAD",
+    "memberof": "src/submodules/less-live-load.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/less-live-load.js~LESSLIVELOAD",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/less-live-load.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "root",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "file",
+    "name": "src/submodules/multipart-body-parser.js",
+    "content": "'use strict'\n// imports\nlet Busboy = require ('busboy');\n// on file data callback provided the object to add to\nfunction onfiledata (body, fieldname, filename) {\n\tlet complete = Buffer.alloc (0);\n\treturn {\n\t\t// callback for file on data, just concatenate data to buffer\n\t\tondata: function (data) {\n\t\t\tcomplete = Buffer.concat ([complete, data]);\n\t\t},\n\t\t// callback for when the form is complete\n\t\tfin: function () {\n      console.log ('file end');\n\t\t\t// check what we are adding to\n\t\t\tif (Array.isArray (body [fieldname]))\n\t\t\t\t// add to array\n\t\t\t\treturn body [fieldname].push ({\n\t\t\t\t\tname: filename,\n\t\t\t\t\tdata: complete\n\t\t\t\t});\n\t\t\t// add to object\n\t\t\tbody [fieldname] = {\n\t\t\t\tname: filename,\n\t\t\t\tdata: complete\n\t\t\t}\n\t\t}\n\t}\n}\n// on fields\nfunction onfielddata (body, fieldname, value) {\n\treturn {\n\t\tfin: function () {\n      console.log ('field end');\n\t\t\tif (Array.isArray (body [fieldname]))\n\t\t\t\treturn body [fieldname].push (value);\n\t\t\tbody [fieldname] = value;\n\t\t}\n\t}\n}\n// when everything is done\nfunction onfinishload (body, fields, fins, next) {\n\treturn function () {\n\t\t// map to count the number of times each field occurs\n\t\tlet map = new Map ();\n\t\t// iterate over each field\n\t\tfields.forEach ((field) => {\n\t\t\t// either increment occurences or set it to 0\t\t\n\t\t\tif (map.has (field)) return map.set (field, map.get (field) + 1);\n\t\t\tmap.set (field, 0);\n\t\t});\n\t\t// iterate over k/v in map\n\t\tmap.forEach ((v, k) => {\n\t\t\t// only for v not zero, make an array\n\t\t\tif (v) body [k] = [];\n\t\t});\n\t\t// now call all finish methods\n\t\tfins.forEach ((fn) => {fn ()});\n\t\tnext ();\n\t}\n}\n// export the middleware\nmodule.exports = function (req, res, next) {\n\t// busboy instance\n\tlet busboy = new Busboy ({headers: req.headers});\n\t// verify body exists\n\tif (!req.body)\n\t\treq.body = {};\n\t// fields and finish functions\n\tlet fields = [];\n\tlet fins = [];\n\t// file events\n\tbusboy.on ('file', (fieldname, file, filename) => {\n    console.log ('file start');\n\t\tfields.push (fieldname);\n\t\tlet callbacks = onfiledata (req.body, fieldname, filename);\n\t\tfile.on ('data', callbacks.ondata);\n\t\tfile.on ('end', () => {console.log ('file loaded'); fins.push (callbacks.fin)});\n\t});\n\t// field events\n\tbusboy.on ('field', (fieldname, value) => {\n    console.log ('field start');\n\t\tfields.push (fieldname);\n\t\tfins.push (onfielddata (req.body, fieldname, value).fin);\n\t});\n\t// done!\n\tbusboy.on ('finish', onfinishload (req.body, fields, fins, next));\n\treq.pipe (busboy);\n}",
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 77,
+    "kind": "variable",
+    "name": "Busboy",
+    "memberof": "src/submodules/multipart-body-parser.js",
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js~Busboy",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/multipart-body-parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "function",
+    "name": "onfiledata",
+    "memberof": "src/submodules/multipart-body-parser.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js~onfiledata",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/multipart-body-parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "body",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fieldname",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "filename",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"ondata\": *, \"fin\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "function",
+    "name": "onfielddata",
+    "memberof": "src/submodules/multipart-body-parser.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js~onfielddata",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/multipart-body-parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "body",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fieldname",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "value",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"fin\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 80,
+    "kind": "function",
+    "name": "onfinishload",
+    "memberof": "src/submodules/multipart-body-parser.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js~onfinishload",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/multipart-body-parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 42,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "body",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fields",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "fins",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "next",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 81,
+    "kind": "function",
+    "name": "exports",
+    "memberof": "src/submodules/multipart-body-parser.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/submodules/multipart-body-parser.js~exports",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/multipart-body-parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 63,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "name": "req",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "res",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "next",
+        "types": [
+          "*"
+        ]
+      }
+    ]
+  },
+  {
+    "__docId__": 83,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 88,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 89,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 90,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 92,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 94,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 100,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 103,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 104,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 105,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 108,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 109,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 110,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 111,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 113,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 114,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 115,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 116,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 117,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 119,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 120,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 121,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 122,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 123,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 124,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 125,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 126,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 127,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 128,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 129,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": "",
+    "lineNumber": 193,
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 131,
+    "kind": "external",
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 132,
+    "kind": "external",
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 133,
+    "kind": "external",
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 134,
+    "kind": "external",
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 135,
+    "kind": "external",
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 136,
+    "kind": "external",
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 137,
+    "kind": "external",
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 138,
+    "kind": "external",
+    "name": "AudioContext",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "static": true,
+    "longname": "BuiltinExternal/WebAPIExternal.js~AudioContext",
+    "access": null,
+    "description": "",
+    "lineNumber": 34,
+    "builtinExternal": true
+  }
+]

@@ -14,9 +14,22 @@ function toRadians (coord) {
 // a coordinate is a 2 point array
 class Coordinate {
   // setup one coordinate
-  constructor (longitude, lattitude) {
+  constructor (longitude = 0, lattitude = 0) {
     this [long] = longitude;
     this [latt] = lattitude;
+  }
+  // getters and setters
+  get longitude () {
+    return this [long];
+  }
+  set longitude (value) {
+    this [long] = value;
+  }
+  get lattitude () {
+    return this [latt];
+  }
+  set lattitude (value) {
+    this [latt] = value;
   }
   // calulates the distance between two coordinates
   // distance on unit circle (aka radians)
@@ -33,6 +46,7 @@ class Coordinate {
   }
   // true if equal.. otherwise false
   equals (RHS) {
+    if (!(RHS instanceof Coordinate)) return false;
     return this [long] === RHS [long] && this [latt] === RHS [latt];
   }
 
