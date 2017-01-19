@@ -19,13 +19,13 @@ let lessMiddleware = quick ('live-less-load');
 ```
 
 ## Submodules
-| Submodule                   | Access String               | 
-| :-------------------------: | :-------------------------: |
-| Less Middleware             | live-less-load              |
-| Mulipart Form Body Parser   | form-data-body-parser       |
-| Client Side                 | client-library              |
-| Join JS                     | join-js                     |
-| GeoJSON (rfc7946)           | geo-json                    |
+| Submodule                                               | Access String               | 
+| :-----------------------------------------------------: | :-------------------------: |
+| Less Middleware                                         | live-less-load              |
+| Mulipart Form Body Parser                               | form-data-body-parser       |
+| Client Side                                             | client-library              |
+| Join JS                                                 | join-js                     |
+| GeoJSON [rfc7946] (https://tools.ietf.org/html/rfc7946) | geo-json                    |
 
 ### Less Middleware
 ```javascript
@@ -37,7 +37,7 @@ The export from less-live-load is a function which, provided a directory, return
 When a request is made, trying to retrieve a css file, the same named less file is rendered and sent.
 Not meant for production, just a tool to quickly prototype less!
 
-## Mulipart Form Body Parser
+### Mulipart Form Body Parser
 ```javascript
 let multipart = quick ('form-data-body-parser');
 
