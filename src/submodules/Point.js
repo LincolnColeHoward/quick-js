@@ -7,7 +7,7 @@ let POS = Geometry.coordinates;
 	* 
 	* Points are single coordinate geometry objects.
 	*/
-class Point extends Geometry {
+module.exports = class Point extends Geometry {
 	/**
 		* Initializes the longitude and lattitude.
 		* 
@@ -18,18 +18,28 @@ class Point extends Geometry {
 		super ('Point');
 		this [POS].add (new Coordinate (longitude, lattitude));
 	}
+	/**
+		* get longitude
+		*/
 	get longitude () {
 		return this [POS].at (0).longitude;
 	}
+	/**
+		* set longitude
+		*/
 	set longitude (value) {
 		this [POS].at (0).longitude = value;
 	}
+	/**
+		* set lattitude
+		*/
 	get lattitude () {
 		return this [POS].at (0).lattitude;
 	}
+	/**
+		* set lattitude
+		*/
 	set lattitude (value) {
 		this [POS].at (0).lattitude = value;
 	}
 }
-
-module.exports = Point;

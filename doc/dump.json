@@ -652,7 +652,7 @@
     "__docId__": 26,
     "kind": "file",
     "name": "src/submodules/Geometry.js",
-    "content": "'use strict'\n// import and symbols\nlet Position = require ('./Position');\nlet TYPE = Symbol ();\nlet POS = Symbol ();\nclass Geometry {\n  // defualt for any geometry object\n  constructor (type) {\n    this [TYPE] = type;\n    this [POS] = new Position ();\n  }\n  // accessor for type attribute\n  get type () {\n    return this [TYPE];\n  }\n  // override the toJSON to actually do what we want!\n  toJSON () {\n    return {\n      type: this [TYPE],\n      coordinates: this [POS].toJSON ()\n    }\n  }\n}\n\nGeometry.coordinates = POS;\nmodule.exports = Geometry;",
+    "content": "'use strict'\n// import and symbols\n/**\n  * Geometry objects depend on position.\n  */\nlet Position = require ('./Position');\n/**\n  * Symbol to abstract type\n  */\nlet TYPE = Symbol ();\n/**\n  * Symbol to abstract coordinates\n  */\nlet POS = Symbol ();\n/**\n  * Abstract type representing GeoJSON objects. rfc7946 (GeoJSON) Section 3.1.1\n  * \n  * @Interface\n  */\nclass Geometry {\n  /** \n    * Geometry constructor sets type and an empty position.\n    * \n    * @param {String} type The type of GeoJSON object it is. These are listed in rfc7946 (GeoJSON) Section 3.1\n    */\n  constructor (type=\"\") {\n    this [TYPE] = type;\n    this [POS] = new Position ();\n  }\n  /** accessor for type attribute */\n  get type () {\n    return this [TYPE];\n  }\n  /** @override */\n  toJSON () {\n    return {\n      type: this [TYPE],\n      coordinates: this [POS].toJSON ()\n    }\n  }\n}\n/** attach the symbol for coordinates staticly to Geometry interface */\nGeometry.coordinates = POS;\n/** export the geometry interface */\nmodule.exports = Geometry;",
     "static": true,
     "longname": "src/submodules/Geometry.js",
     "access": null,
@@ -670,15 +670,8 @@
     "export": false,
     "importPath": "quick-js/src/submodules/Geometry.js",
     "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "Geometry objects depend on position.",
+    "lineNumber": 6,
     "type": {
       "types": [
         "*"
@@ -696,15 +689,8 @@
     "export": false,
     "importPath": "quick-js/src/submodules/Geometry.js",
     "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "Symbol to abstract type",
+    "lineNumber": 10,
     "type": {
       "types": [
         "*"
@@ -722,15 +708,8 @@
     "export": false,
     "importPath": "quick-js/src/submodules/Geometry.js",
     "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "Symbol to abstract coordinates",
+    "lineNumber": 14,
     "type": {
       "types": [
         "*"
@@ -748,12 +727,11 @@
     "export": false,
     "importPath": "quick-js/src/submodules/Geometry.js",
     "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
+    "description": "Abstract type representing GeoJSON objects. rfc7946 (GeoJSON) Section 3.1.1",
+    "lineNumber": 20,
     "unknown": [
       {
-        "tagName": "@_undocument",
+        "tagName": "@Interface",
         "tagValue": ""
       }
     ],
@@ -769,21 +747,18 @@
     "static": false,
     "longname": "src/submodules/Geometry.js~Geometry#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 8,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "Geometry constructor sets type and an empty position.",
+    "lineNumber": 26,
     "params": [
       {
-        "name": "type",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "type",
+        "description": "The type of GeoJSON object it is. These are listed in rfc7946 (GeoJSON) Section 3.1"
       }
     ]
   },
@@ -796,7 +771,7 @@
     "longname": "src/submodules/Geometry.js~Geometry#[TYPE]",
     "access": null,
     "description": null,
-    "lineNumber": 9,
+    "lineNumber": 27,
     "undocument": true,
     "unknown": [
       {
@@ -819,7 +794,7 @@
     "longname": "src/submodules/Geometry.js~Geometry#[POS]",
     "access": null,
     "description": null,
-    "lineNumber": 10,
+    "lineNumber": 28,
     "undocument": true,
     "unknown": [
       {
@@ -843,15 +818,8 @@
     "static": false,
     "longname": "src/submodules/Geometry.js~Geometry#type",
     "access": null,
-    "description": null,
-    "lineNumber": 13,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "accessor for type attribute",
+    "lineNumber": 31,
     "type": {
       "types": [
         "*"
@@ -869,20 +837,14 @@
     "longname": "src/submodules/Geometry.js~Geometry#toJSON",
     "access": null,
     "description": null,
-    "lineNumber": 17,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "lineNumber": 35,
     "params": [],
     "return": {
       "types": [
         "{\"type\": *, \"coordinates\": *}"
       ]
-    }
+    },
+    "override": true
   },
   {
     "__docId__": 36,
@@ -1100,7 +1062,7 @@
     "__docId__": 45,
     "kind": "file",
     "name": "src/submodules/Point.js",
-    "content": "'use strict'\nlet Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\n/**\n\t* Implementation of rfc7946 (GeoJSON) Section 3.1.2\n\t* \n\t* Points are single coordinate geometry objects.\n\t*/\nclass Point extends Geometry {\n\t/**\n\t\t* Initializes the longitude and lattitude.\n\t\t* \n\t\t*\t@param {number} [longitude=0] The initial longitude.\n\t\t*\t@param {number} [lattitude=0] The initial lattitude.\n\t\t*/\n\tconstructor (longitude = 0, lattitude = 0) {\n\t\tsuper ('Point');\n\t\tthis [POS].add (new Coordinate (longitude, lattitude));\n\t}\n\tget longitude () {\n\t\treturn this [POS].at (0).longitude;\n\t}\n\tset longitude (value) {\n\t\tthis [POS].at (0).longitude = value;\n\t}\n\tget lattitude () {\n\t\treturn this [POS].at (0).lattitude;\n\t}\n\tset lattitude (value) {\n\t\tthis [POS].at (0).lattitude = value;\n\t}\n}\n\nmodule.exports = Point;",
+    "content": "'use strict'\nlet Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\n/**\n\t* Implementation of rfc7946 (GeoJSON) Section 3.1.2\n\t* \n\t* Points are single coordinate geometry objects.\n\t*/\nmodule.exports = class Point extends Geometry {\n\t/**\n\t\t* Initializes the longitude and lattitude.\n\t\t* \n\t\t*\t@param {number} [longitude=0] The initial longitude.\n\t\t*\t@param {number} [lattitude=0] The initial lattitude.\n\t\t*/\n\tconstructor (longitude = 0, lattitude = 0) {\n\t\tsuper ('Point');\n\t\tthis [POS].add (new Coordinate (longitude, lattitude));\n\t}\n\t/**\n\t\t* get longitude\n\t\t*/\n\tget longitude () {\n\t\treturn this [POS].at (0).longitude;\n\t}\n\t/**\n\t\t* set longitude\n\t\t*/\n\tset longitude (value) {\n\t\tthis [POS].at (0).longitude = value;\n\t}\n\t/**\n\t\t* set lattitude\n\t\t*/\n\tget lattitude () {\n\t\treturn this [POS].at (0).lattitude;\n\t}\n\t/**\n\t\t* set lattitude\n\t\t*/\n\tset lattitude (value) {\n\t\tthis [POS].at (0).lattitude = value;\n\t}\n}",
     "static": true,
     "longname": "src/submodules/Point.js",
     "access": null,
@@ -1188,10 +1150,10 @@
   {
     "__docId__": 49,
     "kind": "class",
-    "name": "Point",
+    "name": "exports",
     "memberof": "src/submodules/Point.js",
     "static": true,
-    "longname": "src/submodules/Point.js~Point",
+    "longname": "src/submodules/Point.js~exports",
     "access": null,
     "export": false,
     "importPath": "quick-js/src/submodules/Point.js",
@@ -1207,11 +1169,11 @@
     "__docId__": 50,
     "kind": "constructor",
     "name": "constructor",
-    "memberof": "src/submodules/Point.js~Point",
+    "memberof": "src/submodules/Point.js~exports",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/submodules/Point.js~Point#constructor",
+    "longname": "src/submodules/Point.js~exports#constructor",
     "access": null,
     "description": "Initializes the longitude and lattitude.",
     "lineNumber": 17,
@@ -1246,21 +1208,14 @@
     "__docId__": 51,
     "kind": "get",
     "name": "longitude",
-    "memberof": "src/submodules/Point.js~Point",
+    "memberof": "src/submodules/Point.js~exports",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/submodules/Point.js~Point#longitude",
+    "longname": "src/submodules/Point.js~exports#longitude",
     "access": null,
-    "description": null,
-    "lineNumber": 21,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "get longitude",
+    "lineNumber": 24,
     "type": {
       "types": [
         "*"
@@ -1271,21 +1226,14 @@
     "__docId__": 52,
     "kind": "set",
     "name": "longitude",
-    "memberof": "src/submodules/Point.js~Point",
+    "memberof": "src/submodules/Point.js~exports",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/submodules/Point.js~Point#longitude",
+    "longname": "src/submodules/Point.js~exports#longitude",
     "access": null,
-    "description": null,
-    "lineNumber": 24,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "set longitude",
+    "lineNumber": 30,
     "type": {
       "types": [
         "*"
@@ -1296,21 +1244,14 @@
     "__docId__": 53,
     "kind": "get",
     "name": "lattitude",
-    "memberof": "src/submodules/Point.js~Point",
+    "memberof": "src/submodules/Point.js~exports",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/submodules/Point.js~Point#lattitude",
+    "longname": "src/submodules/Point.js~exports#lattitude",
     "access": null,
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "set lattitude",
+    "lineNumber": 36,
     "type": {
       "types": [
         "*"
@@ -1321,21 +1262,14 @@
     "__docId__": 54,
     "kind": "set",
     "name": "lattitude",
-    "memberof": "src/submodules/Point.js~Point",
+    "memberof": "src/submodules/Point.js~exports",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/submodules/Point.js~Point#lattitude",
+    "longname": "src/submodules/Point.js~exports#lattitude",
     "access": null,
-    "description": null,
-    "lineNumber": 30,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
+    "description": "set lattitude",
+    "lineNumber": 42,
     "type": {
       "types": [
         "*"

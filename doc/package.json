@@ -4,7 +4,8 @@
   "description": "a bunch of random js tidbits",
   "main": "index.js",
   "scripts": {
-    "doc": "./node_modules/.bin/esdoc"
+    "predoc": "./node_modules/.bin/esdoc",
+    "doc": "node serve_docs"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,19 @@
   },
   "esdoc": {
     "source": "./src",
-    "destination": "./doc"
+    "destination": "./doc",
+    "access": ["public", "protected", "private"],
+    "unexportIdentifier": true,
+    "undocumentIdentifier": true,
+    "experimentalProposal": {
+      "classProperties": true,
+      "objectRestSpread": true,
+      "decorators": true,
+      "doExpressions": true,
+      "functionBind": true,
+      "asyncGenerators": true,
+      "exportExtensions": true,
+      "dynamicImport": true
+    }
   }
 }

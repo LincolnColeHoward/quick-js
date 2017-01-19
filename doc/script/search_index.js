@@ -1,5 +1,227 @@
 window.esdocSearchIndex = [
   [
+    "quick-js/src/submodules/multipart-body-parser.js~busboy",
+    "variable/index.html#static-variable-Busboy",
+    "<span>Busboy</span> <span class=\"search-result-import-path\">quick-js/src/submodules/multipart-body-parser.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~coordinate",
+    "class/src/submodules/Coordinate.js~Coordinate.html",
+    "<span>Coordinate</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "class"
+  ],
+  [
+    "quick-js/src/submodules/multipoint.js~coordinate",
+    "variable/index.html#static-variable-Coordinate",
+    "<span>Coordinate</span> <span class=\"search-result-import-path\">quick-js/src/submodules/MultiPoint.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/point.js~coordinate",
+    "variable/index.html#static-variable-Coordinate",
+    "<span>Coordinate</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Point.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/position.js~coordinate",
+    "variable/index.html#static-variable-Coordinate",
+    "<span>Coordinate</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Position.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/geometry.js~geometry",
+    "class/src/submodules/Geometry.js~Geometry.html",
+    "<span>Geometry</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Geometry.js</span>",
+    "class"
+  ],
+  [
+    "quick-js/src/submodules/multipoint.js~geometry",
+    "variable/index.html#static-variable-Geometry",
+    "<span>Geometry</span> <span class=\"search-result-import-path\">quick-js/src/submodules/MultiPoint.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/point.js~geometry",
+    "variable/index.html#static-variable-Geometry",
+    "<span>Geometry</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Point.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/less-live-load.js~lessliveload",
+    "function/index.html#static-function-LESSLIVELOAD",
+    "<span>LESSLIVELOAD</span> <span class=\"search-result-import-path\">quick-js/src/submodules/less-live-load.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/submodules/geometry.js~pos",
+    "variable/index.html#static-variable-POS",
+    "<span>POS</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Geometry.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/multipoint.js~pos",
+    "variable/index.html#static-variable-POS",
+    "<span>POS</span> <span class=\"search-result-import-path\">quick-js/src/submodules/MultiPoint.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/point.js~pos",
+    "variable/index.html#static-variable-POS",
+    "<span>POS</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Point.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/geometry.js~position",
+    "variable/index.html#static-variable-Position",
+    "<span>Position</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Geometry.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/position.js~position",
+    "class/src/submodules/Position.js~Position.html",
+    "<span>Position</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Position.js</span>",
+    "class"
+  ],
+  [
+    "quick-js/src/submodules/geometry.js~type",
+    "variable/index.html#static-variable-TYPE",
+    "<span>TYPE</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Geometry.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~add",
+    "variable/index.html#static-variable-add",
+    "<span>add</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/position.js~arr",
+    "variable/index.html#static-variable-arr",
+    "<span>arr</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Position.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~bignumber",
+    "variable/index.html#static-variable-bignumber",
+    "<span>bignumber</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~div",
+    "variable/index.html#static-variable-div",
+    "<span>div</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/multipoint.js~exports",
+    "class/src/submodules/MultiPoint.js~exports.html",
+    "<span>exports</span> <span class=\"search-result-import-path\">quick-js/src/submodules/MultiPoint.js</span>",
+    "class"
+  ],
+  [
+    "quick-js/src/submodules/point.js~exports",
+    "class/src/submodules/Point.js~exports.html",
+    "<span>exports</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Point.js</span>",
+    "class"
+  ],
+  [
+    "quick-js/src/submodules/join-js.js~exports",
+    "function/index.html#static-function-exports",
+    "<span>exports</span> <span class=\"search-result-import-path\">quick-js/src/submodules/join-js.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/submodules/multipart-body-parser.js~exports",
+    "function/index.html#static-function-exports",
+    "<span>exports</span> <span class=\"search-result-import-path\">quick-js/src/submodules/multipart-body-parser.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/submodules/join-js.js~express",
+    "variable/index.html#static-variable-express",
+    "<span>express</span> <span class=\"search-result-import-path\">quick-js/src/submodules/join-js.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/join-js.js~fs",
+    "variable/index.html#static-variable-fs",
+    "<span>fs</span> <span class=\"search-result-import-path\">quick-js/src/submodules/join-js.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~latt",
+    "variable/index.html#static-variable-latt",
+    "<span>latt</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~long",
+    "variable/index.html#static-variable-long",
+    "<span>long</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~math",
+    "variable/index.html#static-variable-math",
+    "<span>math</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/join-js.js~minify",
+    "variable/index.html#static-variable-minify",
+    "<span>minify</span> <span class=\"search-result-import-path\">quick-js/src/submodules/join-js.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~mul",
+    "variable/index.html#static-variable-mul",
+    "<span>mul</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/multipart-body-parser.js~onfielddata",
+    "function/index.html#static-function-onfielddata",
+    "<span>onfielddata</span> <span class=\"search-result-import-path\">quick-js/src/submodules/multipart-body-parser.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/submodules/multipart-body-parser.js~onfiledata",
+    "function/index.html#static-function-onfiledata",
+    "<span>onfiledata</span> <span class=\"search-result-import-path\">quick-js/src/submodules/multipart-body-parser.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/submodules/multipart-body-parser.js~onfinishload",
+    "function/index.html#static-function-onfinishload",
+    "<span>onfinishload</span> <span class=\"search-result-import-path\">quick-js/src/submodules/multipart-body-parser.js</span>",
+    "function"
+  ],
+  [
+    "quick-js/src/client side/path.js~path",
+    "variable/index.html#static-variable-path",
+    "<span>path</span> <span class=\"search-result-import-path\">quick-js/src/client side/path.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/join-js.js~path",
+    "variable/index.html#static-variable-path",
+    "<span>path</span> <span class=\"search-result-import-path\">quick-js/src/submodules/join-js.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~sub",
+    "variable/index.html#static-variable-sub",
+    "<span>sub</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "variable"
+  ],
+  [
+    "quick-js/src/submodules/coordinate.js~toradians",
+    "function/index.html#static-function-toRadians",
+    "<span>toRadians</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Coordinate.js</span>",
+    "function"
+  ],
+  [
     "builtinexternal/ecmascriptexternal.js~array",
     "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
     "BuiltinExternal/ECMAScriptExternal.js~Array",
@@ -348,10 +570,100 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/submodules/coordinate.js~coordinate#[latt]",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-member-[latt]",
+    "src/submodules/Coordinate.js~Coordinate#[latt]",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#[long]",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-member-[long]",
+    "src/submodules/Coordinate.js~Coordinate#[long]",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#constructor",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-constructor-constructor",
+    "src/submodules/Coordinate.js~Coordinate#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#equals",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-method-equals",
+    "src/submodules/Coordinate.js~Coordinate#equals",
+    "method"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#lattitude",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-set-lattitude",
+    "src/submodules/Coordinate.js~Coordinate#lattitude",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#lattitude",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-get-lattitude",
+    "src/submodules/Coordinate.js~Coordinate#lattitude",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#longitude",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-get-longitude",
+    "src/submodules/Coordinate.js~Coordinate#longitude",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#longitude",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-set-longitude",
+    "src/submodules/Coordinate.js~Coordinate#longitude",
+    "member"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#tojson",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-method-toJSON",
+    "src/submodules/Coordinate.js~Coordinate#toJSON",
+    "method"
+  ],
+  [
+    "src/submodules/coordinate.js~coordinate#unitdistance",
+    "class/src/submodules/Coordinate.js~Coordinate.html#instance-method-unitDistance",
+    "src/submodules/Coordinate.js~Coordinate#unitDistance",
+    "method"
+  ],
+  [
     "src/submodules/geometry.js",
     "file/src/submodules/Geometry.js.html",
     "src/submodules/Geometry.js",
     "file"
+  ],
+  [
+    "src/submodules/geometry.js~geometry#[pos]",
+    "class/src/submodules/Geometry.js~Geometry.html#instance-member-[POS]",
+    "src/submodules/Geometry.js~Geometry#[POS]",
+    "member"
+  ],
+  [
+    "src/submodules/geometry.js~geometry#[type]",
+    "class/src/submodules/Geometry.js~Geometry.html#instance-member-[TYPE]",
+    "src/submodules/Geometry.js~Geometry#[TYPE]",
+    "member"
+  ],
+  [
+    "src/submodules/geometry.js~geometry#constructor",
+    "class/src/submodules/Geometry.js~Geometry.html#instance-constructor-constructor",
+    "src/submodules/Geometry.js~Geometry#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/geometry.js~geometry#tojson",
+    "class/src/submodules/Geometry.js~Geometry.html#instance-method-toJSON",
+    "src/submodules/Geometry.js~Geometry#toJSON",
+    "method"
+  ],
+  [
+    "src/submodules/geometry.js~geometry#type",
+    "class/src/submodules/Geometry.js~Geometry.html#instance-get-type",
+    "src/submodules/Geometry.js~Geometry#type",
+    "member"
   ],
   [
     "src/submodules/multipoint.js",
@@ -360,16 +672,124 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/submodules/multipoint.js~exports#add",
+    "class/src/submodules/MultiPoint.js~exports.html#instance-method-add",
+    "src/submodules/MultiPoint.js~exports#add",
+    "method"
+  ],
+  [
+    "src/submodules/multipoint.js~exports#at",
+    "class/src/submodules/MultiPoint.js~exports.html#instance-method-at",
+    "src/submodules/MultiPoint.js~exports#at",
+    "method"
+  ],
+  [
+    "src/submodules/multipoint.js~exports#constructor",
+    "class/src/submodules/MultiPoint.js~exports.html#instance-constructor-constructor",
+    "src/submodules/MultiPoint.js~exports#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/multipoint.js~exports#remove",
+    "class/src/submodules/MultiPoint.js~exports.html#instance-method-remove",
+    "src/submodules/MultiPoint.js~exports#remove",
+    "method"
+  ],
+  [
     "src/submodules/point.js",
     "file/src/submodules/Point.js.html",
     "src/submodules/Point.js",
     "file"
   ],
   [
+    "src/submodules/point.js~exports#constructor",
+    "class/src/submodules/Point.js~exports.html#instance-constructor-constructor",
+    "src/submodules/Point.js~exports#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/point.js~exports#lattitude",
+    "class/src/submodules/Point.js~exports.html#instance-get-lattitude",
+    "src/submodules/Point.js~exports#lattitude",
+    "member"
+  ],
+  [
+    "src/submodules/point.js~exports#lattitude",
+    "class/src/submodules/Point.js~exports.html#instance-set-lattitude",
+    "src/submodules/Point.js~exports#lattitude",
+    "member"
+  ],
+  [
+    "src/submodules/point.js~exports#longitude",
+    "class/src/submodules/Point.js~exports.html#instance-set-longitude",
+    "src/submodules/Point.js~exports#longitude",
+    "member"
+  ],
+  [
+    "src/submodules/point.js~exports#longitude",
+    "class/src/submodules/Point.js~exports.html#instance-get-longitude",
+    "src/submodules/Point.js~exports#longitude",
+    "member"
+  ],
+  [
     "src/submodules/position.js",
     "file/src/submodules/Position.js.html",
     "src/submodules/Position.js",
     "file"
+  ],
+  [
+    "src/submodules/position.js~position#[arr]",
+    "class/src/submodules/Position.js~Position.html#instance-member-[arr]",
+    "src/submodules/Position.js~Position#[arr]",
+    "member"
+  ],
+  [
+    "src/submodules/position.js~position#add",
+    "class/src/submodules/Position.js~Position.html#instance-method-add",
+    "src/submodules/Position.js~Position#add",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#at",
+    "class/src/submodules/Position.js~Position.html#instance-method-at",
+    "src/submodules/Position.js~Position#at",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#constructor",
+    "class/src/submodules/Position.js~Position.html#instance-constructor-constructor",
+    "src/submodules/Position.js~Position#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#equals",
+    "class/src/submodules/Position.js~Position.html#instance-method-equals",
+    "src/submodules/Position.js~Position#equals",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#has",
+    "class/src/submodules/Position.js~Position.html#instance-method-has",
+    "src/submodules/Position.js~Position#has",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#remove",
+    "class/src/submodules/Position.js~Position.html#instance-method-remove",
+    "src/submodules/Position.js~Position#remove",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#size",
+    "class/src/submodules/Position.js~Position.html#instance-method-size",
+    "src/submodules/Position.js~Position#size",
+    "method"
+  ],
+  [
+    "src/submodules/position.js~position#tojson",
+    "class/src/submodules/Position.js~Position.html#instance-method-toJSON",
+    "src/submodules/Position.js~Position#toJSON",
+    "method"
   ],
   [
     "src/submodules/join-js.js",

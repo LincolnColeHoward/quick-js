@@ -1,6 +1,109 @@
 {
-  "coverage": "0%",
-  "expectCount": 0,
-  "actualCount": 0,
-  "files": {}
+  "coverage": "31.42%",
+  "expectCount": 70,
+  "actualCount": 22,
+  "files": {
+    "src/submodules/multipart-body-parser.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        63,
+        31,
+        5,
+        42
+      ]
+    },
+    "src/submodules/Point.js": {
+      "expectCount": 9,
+      "actualCount": 6,
+      "undocumentLines": [
+        2,
+        3,
+        4
+      ]
+    },
+    "src/submodules/Position.js": {
+      "expectCount": 12,
+      "actualCount": 9,
+      "undocumentLines": [
+        2,
+        17,
+        3
+      ]
+    },
+    "src/submodules/MultiPoint.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        2,
+        3,
+        4,
+        10,
+        14,
+        7,
+        6,
+        17
+      ]
+    },
+    "src/submodules/Coordinate.js": {
+      "expectCount": 20,
+      "actualCount": 0,
+      "undocumentLines": [
+        15,
+        19,
+        18,
+        4,
+        3,
+        17,
+        6,
+        48,
+        8,
+        28,
+        31,
+        9,
+        25,
+        22,
+        2,
+        7,
+        5,
+        53,
+        11,
+        37
+      ]
+    },
+    "src/submodules/Geometry.js": {
+      "expectCount": 9,
+      "actualCount": 7,
+      "undocumentLines": [
+        28,
+        27
+      ]
+    },
+    "src/submodules/less-live-load.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/submodules/join-js.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        6,
+        3,
+        5,
+        4
+      ]
+    },
+    "src/client side/path.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        3
+      ]
+    }
+  }
 }
