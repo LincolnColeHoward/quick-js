@@ -25,7 +25,7 @@ let lessMiddleware = quick ('live-less-load');
 | Mulipart Form Body Parser                               | form-data-body-parser       |
 | Client Side                                             | client-library              |
 | Join JS                                                 | join-js                     |
-| GeoJSON [rfc7946] (https://tools.ietf.org/html/rfc7946) | geo-json                    |
+| GeoJSON [rfc7946](https://tools.ietf.org/html/rfc7946)  | geo-json                    |
 
 ### Less Middleware
 ```javascript

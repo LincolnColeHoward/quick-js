@@ -32,13 +32,14 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-path">path</a></span></span></li>
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toRadians">toRadians</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LESSLIVELOAD">LESSLIVELOAD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
@@ -59,6 +60,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
@@ -75,19 +81,38 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/client side/path.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
-// path methods
-let path = {
-	// break up arguments into the smallest segments
-	segmentize: function segmentize () {
-		let segments = [];
+/**
+	* Represents a uri.
+	*/
+class Path {
+	/**
+		* Joins all arguments provided to the constructor.
+		*/
+	constructor (initial = &apos;&apos;) {
+		/**
+			* The path itself.
+			*/
+		this.path = initial;
+	}
+	/**
+		* Breaks the path on &apos;/&apos; characters.
+		* @return {Array &lt;String&gt;} The path split at &apos;/&apos; chartacters.
+		*/
+	segmentize () {
+		return this.path.split (&apos;/&apos;);
+	}
+	/**
+		* Joins this path with any number of paths or strings.
+		* @return {Path} A new path created from the combined paths.
+		*/
+	join () {
+		let segments = this.segmentize ();
 		Array.from (arguments).forEach ((arg) =&gt; {
-			segments = segments.concat (arg.split (&apos;/&apos;));
+			if (arg instanceof Path)
+				segments = segments.concat (arg.segmentize ());
+			if (typeof arg === &apos;string&apos; || arg instanceof String)
+				segments = segments.concat (new Path (arg).segmentize ());
 		});
-		return segments;
-	},
-	// build a url from a set of strings
-	join: function join () {
-		let segments = path.segmentize.apply (null, arguments);
 		// interpret meaning of segments
 		let uri = [];
 		segments.forEach ((segment) =&gt; {
@@ -106,18 +131,29 @@ let path = {
 			}
 		});
 		// return the segments joined by the separator
-		return uri.join (&apos;/&apos;);
-	},
-	// parameterize whole uri
-	parameterize: function (uri, params) {
-		let ret = &apos;&apos;;
-		path.segmentize (uri).forEach ((seg) =&gt; {
-			ret = path.join (ret, path.parameterizeSegment (seg, params));
+		return new Path (uri.join (&apos;/&apos;));
+	}
+	/**
+		* If any segments contain parameters, insert the porovided value into that spot.
+		* 
+		* @param {Object} An object for which the keys are parameters and the values are
+		* the value to insert.
+		* @return {Path} A new path with the parameters replaced with values.
+		*/
+	parameterize (params) {
+		let ret = new Path ();
+		this.segmentize ().forEach ((seg) =&gt; {
+			ret = ret.join (Path.parameterizeSegment (seg, params));
 		});
-		return ret;
-	},
-	// replace parameters into uri segment
-	parameterizeSegment: function (segment, params) {
+		return new Path (ret);
+	}
+	/**
+		* Method to replace parameters of one segment.
+ 		* 
+		* @param {String} segment One part of a path to replace.
+		* @return {String} The path with replaced parameters.
+		*/
+	static parameterizeSegment (segment, params) {
 		// find where to insert stuff, store here
 		let inserts = [];
 		// first index of parameter
@@ -159,6 +195,14 @@ let path = {
 			}
 		}
 		return arr.join (&apos;&apos;);
+	}
+	/** @override */
+	toJSON () {
+		return this.path;
+	}
+	/** @override */
+	toString () {
+		return this.path;
 	}
 }</code></pre>
 

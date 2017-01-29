@@ -7,29 +7,32 @@ let div = math.divide;
 let mul = math.multiply;
 let latt = Symbol ();
 let long = Symbol ();
-// convert long/latt to theta/phi
-function toRadians (coord) {
-  return [coord [long] * math.pi / 180, coord [latt] * math.pi / 180]
-}
-// a coordinate is a 2 point array
+/**
+  * Basic construct of geographic coodinates. (longitude/latitude)
+  */
 class Coordinate {
-  // setup one coordinate
-  constructor (longitude = 0, lattitude = 0) {
+  /**
+    * Initialize longitude and latitude.
+    * 
+    * @param {Number} [longitude=0] The initial longitude.
+    * @param {Number} [latitude=0] The initial latitude.
+    */
+  constructor (longitude = 0, latitude = 0) {
     this [long] = longitude;
-    this [latt] = lattitude;
+    this [latt] = latitude;
   }
-  // getters and setters
-  get longitude () {
-    return this [long];
-  }
-  set longitude (value) {
-    this [long] = value;
-  }
-  get lattitude () {
-    return this [latt];
-  }
-  set lattitude (value) {
-    this [latt] = value;
+  /**
+    * Convert the longitude and latitude to radians.
+    * 
+    * @return {Object} value A new wrapper object.
+    * @return {Number} value.longitude The longitude in radians.
+    * @return {Number} value.latitude The latitude in radians.
+    */
+  toRadians () {
+    return {
+      longitude: this [long] * math.pi / 180,
+      latitude: this [latt] * math.pi / 180
+    }
   }
   // calulates the distance between two coordinates
   // distance on unit circle (aka radians)
@@ -38,18 +41,23 @@ class Coordinate {
     let p1_rad = toRadians (this);
     let p2_rad = toRadians (point);
     let delta_longitude = p1_rad [0] - p2_rad [0];
-    let delta_lattitude = p1_rad [1] - p2_rad [1];
+    let delta_latitude = p1_rad [1] - p2_rad [1];
     let temp = math.pow (math.sin (delta_longitude / 2), 2);
     temp *=  math.cos (p1_rad [1]) * math.cos (p2_rad [1]);
-    temp += math.pow (math.sin (delta_lattitude / 2), 2);
+    temp += math.pow (math.sin (delta_latitude / 2), 2);
     return math.atan2 (math.sqrt (temp), math.sqrt (1 - temp));
   }
-  // true if equal.. otherwise false
+  /**
+    * Equivalence test between coordinates.
+    * 
+    * @param {Coordinate} RHS The coordinate to compare to.
+    * @return {boolean} True if the coordinates are equal.
+    */
   equals (RHS) {
     if (!(RHS instanceof Coordinate)) return false;
     return this [long] === RHS [long] && this [latt] === RHS [latt];
   }
-
+  /** @override */
   toJSON () {
     return [this [long], this [latt]];
   }

@@ -32,13 +32,14 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-path">path</a></span></span></li>
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toRadians">toRadians</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LESSLIVELOAD">LESSLIVELOAD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
@@ -59,6 +60,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
@@ -78,23 +84,49 @@
 let Coordinate = require (&apos;./Coordinate&apos;);
 let Geometry = require (&apos;./Geometry&apos;);
 let POS = Geometry.coordinates;
-// GeoJSON MultiPoint
-module.exports = class MultiPoint extends Geometry {
+let Point = require (&apos;./Point&apos;);
+/**
+	* Implementation of rfc7946 (GeoJSON) Section 3.1.3
+	*/
+class MultiPoint extends Geometry {
+	/**
+		* Arguments list is parsed and added.
+		* 
+		* @param {Array &lt;Coordinate|Point&gt;} [arguments] All arguments are added.
+    * @throws {TypeError} Throws error when constructor argument is not Coordiante type
+		*/
 	constructor () {
 		super (&apos;MultiPoint&apos;);
+		Array.from (arguments).forEach ((coord) =&gt; {
+			this.add (coord);
+		})
 	}
+	/**
+		* Adds a Coordinate or Point to this.
+		* 
+		* @param {Coordinate|Point} coord The coordinate to add.
+    * @throws {TypeError} Throws error when constructor argument is not Coordiante or Point type
+		*/
 	add (coord) {
-		if (coord instanceof Coordinate)
+		if (coord instanceof Coordinate) {
 			this [POS].add (coord);
+		} else if (coord instanceof Point) {
+			this.add (coord.toCoordinate ());
+		} else {
+			throw new TypeError (&apos;MultiPoint can only add Coordinate or Point type&apos;);
+		}
 	}
-	at () {
-
-	}
+	/**
+		* Remove a coordinate or point from this.
+		* 
+		* @param {Coordinate|Point} coord The coordinate to remove.
+		*/
 	remove (coord) {
 		if (coord instanceof Coordinate)
 			this [POS].remove (coord);
 	}
-}</code></pre>
+}
+module.exports = MultiPoint;</code></pre>
 
 </div>
 

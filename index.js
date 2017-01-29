@@ -8,7 +8,9 @@ let submodules = {
     Coordinate: require ('./src/submodules/Coordinate'),
     Position: require ('./src/submodules/Position'),
     Point: require ('./src/submodules/Point'),
-    MultiPoint: require ('./src/submodules/MultiPoint')
+    MultiPoint: require ('./src/submodules/MultiPoint'),
+    LineString: require ('./src/submodules/LineString'),
+    MultiLineString: require ('./src/submodules/MultiLineString')
   },
   'join-js': require ('./src/submodules/join-js'),
   'client-library': require ('express').static ('src/client side')

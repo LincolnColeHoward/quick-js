@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/submodules/join-js.js | API Document</title>
+  <title data-ice="title">src/submodules/LineString.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -79,45 +79,50 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/submodules/join-js.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">src/submodules/LineString.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
-// imports
-let fs = require (&apos;fs&apos;);
-let path = require (&apos;path&apos;);
-let minify = require (&apos;escompress&apos;).transform;
-let express = require (&apos;express&apos;);
-
-module.exports = function (dir) {
-	// create router
-	let router = express.Router ();
-	// find source directory relative to cwd
-	let source = path.join (process.cwd (), dir);
-	// minified source
-	router.get (&apos;/source.min.js&apos;, function (req, res) {
-		// list the directory
-		let files = fs.readdirSync (source);
-		// write the minified file to stream
-		files.forEach ((file) =&gt; {
-			res.write (minify (fs.readFileSync (path.join (source, file)), {}).code);
-		});
-		// close!
-		res.end ();
-	});
-	// unminified
-	router.get (&apos;/source.js&apos;, (req, res) =&gt; {
-		// use strict for all
-		res.write (&apos;\&apos;use strict\&apos;\n&apos;);
-		// list the directory
-		let files = fs.readdirSync (source);
-		// write the minified file to stream
-		files.forEach ((file) =&gt; {
-			res.write (fs.readFileSync (path.join (source, file)) + &apos;\n&apos;);
-		});
-		// close!
-		res.end ();
-	});
-	return router;
-}</code></pre>
+let Coordinate = require (&apos;./Coordinate&apos;);
+let Geometry = require (&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+let Point = require (&apos;./Point&apos;);
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.4
+  * 
+  * LineStrings are multiple coordinate geometry objects that form a line.
+  */
+class LineString extends Geometry {
+  /**
+    * LineStrings need a minimum of two coordinates.
+    * 
+    * @param {Array &lt;Coordinate|Point&gt;} arguments All arguments are parsed and added. All must be
+    * coordinate type and at least two must be present.
+    * @throws {Error} Throws error when less than two arguments are provided.
+    * @throws {TypeError} Throws error when constructor argument is not Coordiante or Point type
+    */
+  constructor () {
+    super (&apos;LineString&apos;);
+    if (arguments.length &lt; 2)
+      throw new Error (&apos;LineString constructor requires at least two arguments&apos;);
+    Array.from (arguments).forEach ((coord) =&gt; {
+      this.add (coord);
+    });
+  }
+  /**
+    * Add another coordinate to the line
+    * 
+    * @param {Coordinate|Point} coord The coordinate to add.
+    */
+  add (coord) {
+    if (coord instanceof Coordinate) {
+      this [POS].add (coord);
+    } else if (coord instanceof Point) {
+      this [POS].add (coord.toCoordinate ());
+    } else {
+      throw new TypeError (&apos;LineString can only add Coordinate or Point type&apos;);
+    }
+  }
+}
+module.exports = LineString</code></pre>
 
 </div>
 

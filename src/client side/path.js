@@ -1,17 +1,36 @@
 'use strict'
-// path methods
-let path = {
-	// break up arguments into the smallest segments
-	segmentize: function segmentize () {
-		let segments = [];
+/**
+	* Represents a uri.
+	*/
+class Path {
+	/**
+		* Joins all arguments provided to the constructor.
+		*/
+	constructor (initial = '') {
+		/**
+			* The path itself.
+			*/
+		this.path = initial;
+	}
+	/**
+		* Breaks the path on '/' characters.
+		* @return {Array <String>} The path split at '/' chartacters.
+		*/
+	segmentize () {
+		return this.path.split ('/');
+	}
+	/**
+		* Joins this path with any number of paths or strings.
+		* @return {Path} A new path created from the combined paths.
+		*/
+	join () {
+		let segments = this.segmentize ();
 		Array.from (arguments).forEach ((arg) => {
-			segments = segments.concat (arg.split ('/'));
+			if (arg instanceof Path)
+				segments = segments.concat (arg.segmentize ());
+			if (typeof arg === 'string' || arg instanceof String)
+				segments = segments.concat (new Path (arg).segmentize ());
 		});
-		return segments;
-	},
-	// build a url from a set of strings
-	join: function join () {
-		let segments = path.segmentize.apply (null, arguments);
 		// interpret meaning of segments
 		let uri = [];
 		segments.forEach ((segment) => {
@@ -30,18 +49,29 @@ let path = {
 			}
 		});
 		// return the segments joined by the separator
-		return uri.join ('/');
-	},
-	// parameterize whole uri
-	parameterize: function (uri, params) {
-		let ret = '';
-		path.segmentize (uri).forEach ((seg) => {
-			ret = path.join (ret, path.parameterizeSegment (seg, params));
+		return new Path (uri.join ('/'));
+	}
+	/**
+		* If any segments contain parameters, insert the porovided value into that spot.
+		* 
+		* @param {Object} An object for which the keys are parameters and the values are
+		* the value to insert.
+		* @return {Path} A new path with the parameters replaced with values.
+		*/
+	parameterize (params) {
+		let ret = new Path ();
+		this.segmentize ().forEach ((seg) => {
+			ret = ret.join (Path.parameterizeSegment (seg, params));
 		});
-		return ret;
-	},
-	// replace parameters into uri segment
-	parameterizeSegment: function (segment, params) {
+		return new Path (ret);
+	}
+	/**
+		* Method to replace parameters of one segment.
+ 		* 
+		* @param {String} segment One part of a path to replace.
+		* @return {String} The path with replaced parameters.
+		*/
+	static parameterizeSegment (segment, params) {
 		// find where to insert stuff, store here
 		let inserts = [];
 		// first index of parameter
@@ -83,5 +113,13 @@ let path = {
 			}
 		}
 		return arr.join ('');
+	}
+	/** @override */
+	toJSON () {
+		return this.path;
+	}
+	/** @override */
+	toString () {
+		return this.path;
 	}
 }

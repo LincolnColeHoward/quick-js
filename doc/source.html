@@ -32,13 +32,14 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-path">path</a></span></span></li>
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toRadians">toRadians</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LESSLIVELOAD">LESSLIVELOAD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
@@ -59,6 +60,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
@@ -73,7 +79,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">22/70</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">45/83</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -97,15 +103,23 @@
       <td style="display: none;" data-ice="updated">2017-01-03 20:48:49 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/client side/path.js.html#errorLines=3">src/client side/path.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-path">path</a></span></td>
-      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/1</span></td>
-      <td style="display: none;" data-ice="size">2455 byte</td>
-      <td style="display: none;" data-ice="lines">86</td>
-      <td style="display: none;" data-ice="updated">2017-01-03 20:48:49 (UTC)</td>
+      <td data-ice="filePath"><span><a href="file/src/client side/geolocation.js.html">src/client side/geolocation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-geo">geo</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">342 byte</td>
+      <td style="display: none;" data-ice="lines">11</td>
+      <td style="display: none;" data-ice="updated">2017-01-01 13:03:29 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/submodules/Coordinate.js.html#errorLines=11,15,17,18,19,2,22,25,28,3,31,37,4,48,5,53,6,7,8,9">src/submodules/Coordinate.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/client side/path.js.html">src/client side/path.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">9/9</span></td>
+      <td style="display: none;" data-ice="size">3364 byte</td>
+      <td style="display: none;" data-ice="lines">124</td>
+      <td style="display: none;" data-ice="updated">2017-01-06 21:52:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/submodules/Coordinate.js.html#errorLines=2,21,22,3,4,40,5,6,7,8,9">src/submodules/Coordinate.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span>
 <span><a href="variable/index.html#static-variable-add">add</a></span>
 <span><a href="variable/index.html#static-variable-bignumber">bignumber</a></span>
@@ -114,12 +128,11 @@
 <span><a href="variable/index.html#static-variable-long">long</a></span>
 <span><a href="variable/index.html#static-variable-math">math</a></span>
 <span><a href="variable/index.html#static-variable-mul">mul</a></span>
-<span><a href="variable/index.html#static-variable-sub">sub</a></span>
-<span><a href="function/index.html#static-function-toRadians">toRadians</a></span></td>
-      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/20</span></td>
-      <td style="display: none;" data-ice="size">1610 byte</td>
-      <td style="display: none;" data-ice="lines">56</td>
-      <td style="display: none;" data-ice="updated">2017-01-03 20:48:49 (UTC)</td>
+<span><a href="variable/index.html#static-variable-sub">sub</a></span></td>
+      <td class="coverage"><span data-ice="coverage">31 %</span><span data-ice="coverageCount" class="coverage-count">5/16</span></td>
+      <td style="display: none;" data-ice="size">1976 byte</td>
+      <td style="display: none;" data-ice="lines">64</td>
+      <td style="display: none;" data-ice="updated">2017-01-01 21:33:49 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/submodules/Geometry.js.html#errorLines=27,28">src/submodules/Geometry.js</a></span></td>
@@ -128,31 +141,52 @@
 <span><a href="variable/index.html#static-variable-Position">Position</a></span>
 <span><a href="variable/index.html#static-variable-TYPE">TYPE</a></span></td>
       <td class="coverage"><span data-ice="coverage">77 %</span><span data-ice="coverageCount" class="coverage-count">7/9</span></td>
-      <td style="display: none;" data-ice="size">1021 byte</td>
+      <td style="display: none;" data-ice="size">1017 byte</td>
       <td style="display: none;" data-ice="lines">44</td>
-      <td style="display: none;" data-ice="updated">2017-01-04 17:16:17 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-01-04 17:33:52 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/submodules/MultiPoint.js.html#errorLines=10,14,17,2,3,4,6,7">src/submodules/MultiPoint.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/submodules/LineString.js.html#errorLines=2,3,4,5">src/submodules/LineString.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span>
 <span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span>
+<span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span>
 <span><a href="variable/index.html#static-variable-POS">POS</a></span>
-<span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></td>
-      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
-      <td style="display: none;" data-ice="size">427 byte</td>
-      <td style="display: none;" data-ice="lines">20</td>
-      <td style="display: none;" data-ice="updated">2017-01-03 20:48:49 (UTC)</td>
+<span><a href="variable/index.html#static-variable-Point">Point</a></span></td>
+      <td class="coverage"><span data-ice="coverage">42 %</span><span data-ice="coverageCount" class="coverage-count">3/7</span></td>
+      <td style="display: none;" data-ice="size">1409 byte</td>
+      <td style="display: none;" data-ice="lines">42</td>
+      <td style="display: none;" data-ice="updated">2017-01-01 21:27:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/submodules/MultiLineString.js.html">src/submodules/MultiLineString.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">0 byte</td>
+      
+      <td style="display: none;" data-ice="updated">2017-01-01 13:05:30 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/submodules/MultiPoint.js.html#errorLines=2,3,4,5">src/submodules/MultiPoint.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span>
+<span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span>
+<span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span>
+<span><a href="variable/index.html#static-variable-POS">POS</a></span>
+<span><a href="variable/index.html#static-variable-Point">Point</a></span></td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">4/8</span></td>
+      <td style="display: none;" data-ice="size">1291 byte</td>
+      <td style="display: none;" data-ice="lines">46</td>
+      <td style="display: none;" data-ice="updated">2017-01-01 21:34:08 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/submodules/Point.js.html#errorLines=2,3,4">src/submodules/Point.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span>
 <span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span>
 <span><a href="variable/index.html#static-variable-POS">POS</a></span>
-<span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></td>
-      <td class="coverage"><span data-ice="coverage">66 %</span><span data-ice="coverageCount" class="coverage-count">6/9</span></td>
-      <td style="display: none;" data-ice="size">959 byte</td>
-      <td style="display: none;" data-ice="lines">44</td>
-      <td style="display: none;" data-ice="updated">2017-01-04 17:09:20 (UTC)</td>
+<span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></td>
+      <td class="coverage"><span data-ice="coverage">70 %</span><span data-ice="coverageCount" class="coverage-count">7/10</span></td>
+      <td style="display: none;" data-ice="size">1151 byte</td>
+      <td style="display: none;" data-ice="lines">53</td>
+      <td style="display: none;" data-ice="updated">2017-01-01 21:26:49 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/submodules/Position.js.html#errorLines=17,2,3">src/submodules/Position.js</a></span></td>

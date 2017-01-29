@@ -32,13 +32,14 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-path">path</a></span></span></li>
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toRadians">toRadians</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LESSLIVELOAD">LESSLIVELOAD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
@@ -59,6 +60,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
@@ -83,16 +89,16 @@ let POS = Geometry.coordinates;
 	* 
 	* Points are single coordinate geometry objects.
 	*/
-module.exports = class Point extends Geometry {
+class Point extends Geometry {
 	/**
-		* Initializes the longitude and lattitude.
+		* Initializes the longitude and latitude.
 		* 
 		*	@param {number} [longitude=0] The initial longitude.
-		*	@param {number} [lattitude=0] The initial lattitude.
+		*	@param {number} [latitude=0] The initial latitude.
 		*/
-	constructor (longitude = 0, lattitude = 0) {
+	constructor (longitude = 0, latitude = 0) {
 		super (&apos;Point&apos;);
-		this [POS].add (new Coordinate (longitude, lattitude));
+		this [POS].add (new Coordinate (longitude, latitude));
 	}
 	/**
 		* get longitude
@@ -107,18 +113,27 @@ module.exports = class Point extends Geometry {
 		this [POS].at (0).longitude = value;
 	}
 	/**
-		* set lattitude
+		* set latitude
 		*/
-	get lattitude () {
-		return this [POS].at (0).lattitude;
+	get latitude () {
+		return this [POS].at (0).latitude;
 	}
 	/**
-		* set lattitude
+		* set latitude
 		*/
-	set lattitude (value) {
-		this [POS].at (0).lattitude = value;
+	set latitude (value) {
+		this [POS].at (0).latitude = value;
 	}
-}</code></pre>
+	/**
+		* Return this point as a Coordinate type.
+		* 
+		* @return {Coordinate} This point as a coordinate type.
+		*/
+	toCoordinate () {
+		return new Coordinate (this.longitude, this.latitude);
+	}
+}
+module.exports = Point;</code></pre>
 
 </div>
 

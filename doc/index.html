@@ -32,13 +32,14 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-path">path</a></span></span></li>
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~exports.html">exports</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~exports.html">exports</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toRadians">toRadians</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LESSLIVELOAD">LESSLIVELOAD</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exports">exports</a></span></span></li>
@@ -59,6 +60,11 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Point">Point</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Coordinate">Coordinate</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Geometry">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-POS">POS</a></span></span></li>
@@ -74,8 +80,8 @@
 </nav>
 
 <div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="quick-js">quick-js</h1>
-<p>A (soon to be!) handful of random javascript submodules.
-The goal is to write 2 submodules and 5 &quot;improvements&quot; every week while maintaining a daily output.</p>
+<p>A handful of random javascript submodules.
+The goal is to write 2 submodules and 5 &quot;improvements&quot; every week while maintaining a daily output. I try to spend 1-2 hours per day on this.</p>
 <h2 id="installation">Installation</h2>
 <pre><code class="lang-bash"><code class="source-code prettyprint">npm install --save LincolnColeHoward/quick-js</code>
 </code></pre>
@@ -105,8 +111,51 @@ let lessMiddleware = quick (&apos;live-less-load&apos;);</code>
 <td style="text-align:center">Mulipart Form Body Parser</td>
 <td style="text-align:center">form-data-body-parser</td>
 </tr>
+<tr>
+<td style="text-align:center">Client Side</td>
+<td style="text-align:center">client-library</td>
+</tr>
+<tr>
+<td style="text-align:center">Join JS</td>
+<td style="text-align:center">join-js</td>
+</tr>
+<tr>
+<td style="text-align:center">GeoJSON <a href="https://tools.ietf.org/html/rfc7946">rfc7946</a></td>
+<td style="text-align:center">geo-json</td>
+</tr>
 </tbody>
 </table>
+<h3 id="less-middleware">Less Middleware</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">let lessMiddleware = quick (&apos;less-live-load&apos;);
+
+app.use (&apos;/css&apos;, lessMiddleware (&apos;/path/to/less/files&apos;));</code>
+</code></pre>
+<p>The export from less-live-load is a function which, provided a directory, returns the middleware.
+When a request is made, trying to retrieve a css file, the same named less file is rendered and sent.
+Not meant for production, just a tool to quickly prototype less!</p>
+<h3 id="mulipart-form-body-parser">Mulipart Form Body Parser</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">let multipart = quick (&apos;form-data-body-parser&apos;);
+
+app.use (multipart);</code>
+</code></pre>
+<p>The export is already a complete express middleware.
+It functions the same way other body-parsers do, creates req.body and adds data to it.</p>
+<h3 id="client-side">Client Side</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">let clientSide = quick (&apos;client-library&apos;);
+
+app.use (&apos;/client-library&apos;, clientSide);</code>
+</code></pre>
+<p>Simply a collection of client side scripts for convinience. Exported as express static.</p>
+<h3 id="join-js">Join JS</h3>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">let join = quick (&apos;join-js&apos;);
+
+app.use (&apos;/js&apos;, join (&apos;/path/to/javascript/files&apos;));</code>
+</code></pre>
+<p>The export from join-js is a function that accepts a directory and returns the middleware.
+The returned router has two routes: (/source.js and /source.min.js).
+All files in the directory are joined and sent as one file.</p>
+<h3 id="geojson">GeoJSON</h3>
+<p>Still on the way.</p>
 </div>
 </div>
 

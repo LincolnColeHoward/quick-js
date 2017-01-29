@@ -1,5 +1,4 @@
 'use strict'
-// import and symbols
 /**
   * Geometry objects depend on position.
   */
@@ -31,7 +30,10 @@ class Geometry {
   get type () {
     return this [TYPE];
   }
-  /** @override */
+  /**
+    * @override
+    * @return {Geometry} An object containing a type and position. 
+    */
   toJSON () {
     return {
       type: this [TYPE],
@@ -39,7 +41,9 @@ class Geometry {
     }
   }
 }
-/** attach the symbol for coordinates staticly to Geometry interface */
+/** 
+  * attach the symbol for coordinates staticly to Geometry interface
+  * @property
+  */
 Geometry.coordinates = POS;
-/** export the geometry interface */
 module.exports = Geometry;
