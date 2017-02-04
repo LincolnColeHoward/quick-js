@@ -1,104 +1,52 @@
 {
-  "coverage": "54.21%",
-  "expectCount": 83,
-  "actualCount": 45,
+  "coverage": "100%",
+  "expectCount": 54,
+  "actualCount": 54,
   "files": {
-    "src/submodules/multipart-body-parser.js": {
-      "expectCount": 5,
-      "actualCount": 0,
-      "undocumentLines": [
-        3,
-        63,
-        31,
-        5,
-        42
-      ]
-    },
-    "src/submodules/Point.js": {
-      "expectCount": 10,
-      "actualCount": 7,
-      "undocumentLines": [
-        2,
-        3,
-        4
-      ]
-    },
-    "src/submodules/LineString.js": {
-      "expectCount": 7,
-      "actualCount": 3,
-      "undocumentLines": [
-        2,
-        3,
-        4,
-        5
-      ]
-    },
     "src/submodules/Coordinate.js": {
-      "expectCount": 16,
+      "expectCount": 5,
       "actualCount": 5,
-      "undocumentLines": [
-        22,
-        21,
-        4,
-        3,
-        6,
-        8,
-        9,
-        2,
-        7,
-        5,
-        40
-      ]
-    },
-    "src/submodules/Position.js": {
-      "expectCount": 12,
-      "actualCount": 9,
-      "undocumentLines": [
-        2,
-        17,
-        3
-      ]
-    },
-    "src/submodules/MultiPoint.js": {
-      "expectCount": 8,
-      "actualCount": 4,
-      "undocumentLines": [
-        2,
-        3,
-        4,
-        5
-      ]
+      "undocumentLines": []
     },
     "src/submodules/Geometry.js": {
-      "expectCount": 9,
-      "actualCount": 7,
-      "undocumentLines": [
-        28,
-        27
-      ]
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
     },
-    "src/submodules/less-live-load.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        3
-      ]
+    "src/submodules/LineString.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/submodules/MultiLineString.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/submodules/MultiPoint.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
     },
     "src/client side/path.js": {
       "expectCount": 9,
       "actualCount": 9,
       "undocumentLines": []
     },
-    "src/submodules/join-js.js": {
+    "src/submodules/Point.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/submodules/Polygon.js": {
       "expectCount": 5,
-      "actualCount": 0,
-      "undocumentLines": [
-        8,
-        6,
-        3,
-        5,
-        4
-      ]
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/submodules/Position.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
     },
     "src/client side/geolocation.js": {
       "expectCount": 1,

@@ -1,4 +1,3 @@
-'use strict'
 let Coordinate = require ('./Coordinate');
 let Geometry = require ('./Geometry');
 let POS = Geometry.coordinates;

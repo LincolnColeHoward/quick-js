@@ -1,4 +1,3 @@
-'use strict'
 let Coordinate = require ('./Coordinate');
 let arr = Symbol ();
 /**
@@ -103,9 +102,9 @@ class Position {
     */
   equals (position) {
     if (!(position instanceof Position)) return false;
-    if (this.size () !== element.size ()) return false;
+    if (this.size () !== position.size ()) return false;
     for (let i = 0; i < this.size (); i++)
-      if (!this.at (i).equals (position.at (i)));
+      if (!this.at (i).equals (position.at (i)))
         return false;
     return true;
   }
@@ -120,6 +119,9 @@ class Position {
       ret.push (el.toJSON ());
     });
     return ret;
+  }
+  toString () {
+    return JSON.stringify (this, null, '  ');
   }
 }
 

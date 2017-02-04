@@ -1,4 +1,3 @@
-'use strict'
 let Coordinate = require ('./Coordinate');
 let Geometry = require ('./Geometry');
 let POS = Geometry.coordinates;
@@ -25,13 +24,25 @@ class MultiLineString extends Geometry {
     });
   }
   /**
-    * Add another coordinate to the line
+    * Add a line to the list
     * 
-    * @param {LineString} coord The coordinate to add.
+    * @param {LineString} line The line to add.
     */
   add (line) {
     if (line instanceof LineString)
       this [LINES].push (line);
+    this.update ();
+  }
+  /**
+    * Remove a line from the list.
+    * 
+    * @param {LineString} line The line to remove.
+    */
+  remove (line) {
+    for (let i = 0; i < this [LINES].length; i++)
+      if (line.equals (this [LINES] [i]))
+        this [LINES].splice (i, 1);
+    this.update ();
   }
   /**
     * Update this object with the correct positions.
@@ -43,4 +54,4 @@ class MultiLineString extends Geometry {
     });
   }
 }
-module.exports = MultiLineString
+module.exports = MultiLineString;

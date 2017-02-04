@@ -5,8 +5,10 @@
   */
 function geo (cb) {
   navigator.geolocation.getCurrentPosition ((position) => {
-    cb (null, new Point (position.coordinates.longitude, position.coordinates.latitude));
+    cb (null, new Point (position.coords.longitude, position.coords.latitude));
   }, () => {
     cb ('error');
-  }, {enableHighAccuracy: true});
+  });
 }
+
+module.exports = geo;

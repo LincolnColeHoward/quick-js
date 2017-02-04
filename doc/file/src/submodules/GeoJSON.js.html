@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/client side/formify.js | API Document</title>
+  <title data-ice="title">src/submodules/GeoJSON.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -46,62 +46,13 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/client side/formify.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// declare the formify function
-let formify;
-(function () {
-	// events on form submit and when we get a response
-	let submitEvt = new Event (&apos;form-submit&apos;);
-	formify = (element) =&gt; {
-		// get any relevant input field with a name
-		let inputs = Array.from (element.querySelectorAll (&apos;select[name],input[name],textarea[name]&apos;));
-		// get the submit button
-		let submit = element.querySelector (&apos;button[type=&quot;submit&quot;],input[type=&quot;submit&quot;]&apos;);
-		// get path from the element, every formdata is a post and enctype is multipart/form-data
-		let path = element.getAttribute (&apos;action&apos;);
-		// attach events
-		element.addEventListener (&apos;form-submit&apos;, function () {
-			// setup the request
-			let xhr = new XMLHttpRequest ();
-			xhr.open (&apos;POST&apos;, path);
-			xhr.addEventListener (&apos;load&apos;, function () {
-				// custom event with detail of the xhr response
-				let responseEvt = new CustomEvent (&apos;form-submit-response&apos;, {
-					detail: xhr.response
-				});
-				element.dispatchEvent (responseEvt);
-			});
-			// start collecting form data
-			let data = new FormData ();
-			inputs.forEach ((input) =&gt; {
-        // file case
-				if (input.type === &apos;file&apos;) {
-					// multiple files
-					if (input.files.length &gt; 1) {
-						input.files.forEach ((file) =&gt; {
-							data.append (input.name, file, file.name);
-						});
-					// single file
-					} else if (input.files.length !== 0) {
-						data.append (input.name, input.files [0], input.files [0].name);
-          }
-				} else {
-					data.append (input.name, input.value);
-        }
-			});
-			// send the form data
-			xhr.send (data);
-		}, false);
-		// the submit button triggers the form-submit
-		submit.addEventListener (&apos;click&apos;, () =&gt; {
-			element.dispatchEvent (submitEvt);
-		});
-	}
-	// formiify all requested
-  Array.from (document.querySelectorAll (&apos;[formify]&apos;)).forEach ((form) =&gt; {
-    formify (form);
-  })
-}) ();</code></pre>
+<div class="content" data-ice="content"><h1 data-ice="title">src/submodules/GeoJSON.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">global.Point = require (&apos;./Point&apos;);
+global.MultiPoint = require (&apos;./MultiPoint&apos;);
+global.LineString = require (&apos;./LineString&apos;);
+global.MultiLineString = require (&apos;./MultiLineString&apos;);
+global.Polygon = require (&apos;./Polygon&apos;);
+global.geo = require (&apos;../client side/geolocation&apos;);</code></pre>
 
 </div>
 

@@ -1,12 +1,3 @@
-'use strict'
-let math = require ('mathjs');
-let bignumber = math.bignumber;
-let add = math.add;
-let sub = math.subtract;
-let div = math.divide;
-let mul = math.multiply;
-let latt = Symbol ();
-let long = Symbol ();
 /**
   * Basic construct of geographic coodinates. (longitude/latitude)
   */
@@ -18,8 +9,8 @@ class Coordinate {
     * @param {Number} [latitude=0] The initial latitude.
     */
   constructor (longitude = 0, latitude = 0) {
-    this [long] = longitude;
-    this [latt] = latitude;
+    this.longitude = longitude;
+    this.latitude = latitude;
   }
   /**
     * Convert the longitude and latitude to radians.
@@ -30,22 +21,9 @@ class Coordinate {
     */
   toRadians () {
     return {
-      longitude: this [long] * math.pi / 180,
-      latitude: this [latt] * math.pi / 180
+      longitude: this.longitude * math.pi / 180,
+      latitude: this.latitude * math.pi / 180
     }
-  }
-  // calulates the distance between two coordinates
-  // distance on unit circle (aka radians)
-  // haverstein distance formula
-  unitDistance (point) {
-    let p1_rad = toRadians (this);
-    let p2_rad = toRadians (point);
-    let delta_longitude = p1_rad [0] - p2_rad [0];
-    let delta_latitude = p1_rad [1] - p2_rad [1];
-    let temp = math.pow (math.sin (delta_longitude / 2), 2);
-    temp *=  math.cos (p1_rad [1]) * math.cos (p2_rad [1]);
-    temp += math.pow (math.sin (delta_latitude / 2), 2);
-    return math.atan2 (math.sqrt (temp), math.sqrt (1 - temp));
   }
   /**
     * Equivalence test between coordinates.
@@ -55,11 +33,14 @@ class Coordinate {
     */
   equals (RHS) {
     if (!(RHS instanceof Coordinate)) return false;
-    return this [long] === RHS [long] && this [latt] === RHS [latt];
+    return this.longitude === RHS.longitude && this.latitude === RHS.latitude
   }
   /** @override */
   toJSON () {
-    return [this [long], this [latt]];
+    return [this.longitude, this.latitude];
+  }
+  toString () {
+    return JSON.stringify (this, null, '  ');
   }
 }
 module.exports = Coordinate;

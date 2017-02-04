@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/client side/geo.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/LincolnColeHoward/quick-js" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">client side</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-geo">geo</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">submodules</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Coordinate.js~Coordinate.html">Coordinate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/LineString.js~LineString.html">LineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiLineString.js~MultiLineString.html">MultiLineString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/MultiPoint.js~MultiPoint.html">MultiPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Point.js~Point.html">Point</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Polygon.js~Polygon.html">Polygon</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/submodules/Position.js~Position.html">Position</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/client side/geo.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require==&quot;function&quot;&amp;&amp;require;if(!u&amp;&amp;a)return a(o,!0);if(i)return i(o,!0);var f=new Error(&quot;Cannot find module &apos;&quot;+o+&quot;&apos;&quot;);throw f.code=&quot;MODULE_NOT_FOUND&quot;,f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require==&quot;function&quot;&amp;&amp;require;for(var o=0;o&lt;r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+&apos;use strict&apos;;
+/**
+  * A GeoJSON wrapper for browser geolocation api.
+  * @param {Function} cb Handle 
+  */
+
+function geo(cb) {
+  navigator.geolocation.getCurrentPosition(position =&gt; {
+    cb(null, new Point(position.coords.longitude, position.coords.latitude));
+  }, () =&gt; {
+    cb(&apos;error&apos;);
+  });
+}
+
+module.exports = geo;
+
+},{}],2:[function(require,module,exports){
+/**
+  * Basic construct of geographic coodinates. (longitude/latitude)
+  */
+class Coordinate {
+  /**
+    * Initialize longitude and latitude.
+    * 
+    * @param {Number} [longitude=0] The initial longitude.
+    * @param {Number} [latitude=0] The initial latitude.
+    */
+  constructor(longitude = 0, latitude = 0) {
+    this.longitude = longitude;
+    this.latitude = latitude;
+  }
+  /**
+    * Convert the longitude and latitude to radians.
+    * 
+    * @return {Object} value A new wrapper object.
+    * @return {Number} value.longitude The longitude in radians.
+    * @return {Number} value.latitude The latitude in radians.
+    */
+  toRadians() {
+    return {
+      longitude: this.longitude * math.pi / 180,
+      latitude: this.latitude * math.pi / 180
+    };
+  }
+  /**
+    * Equivalence test between coordinates.
+    * 
+    * @param {Coordinate} RHS The coordinate to compare to.
+    * @return {boolean} True if the coordinates are equal.
+    */
+  equals(RHS) {
+    if (!(RHS instanceof Coordinate)) return false;
+    return this.longitude === RHS.longitude &amp;&amp; this.latitude === RHS.latitude;
+  }
+  /** @override */
+  toJSON() {
+    return [this.longitude, this.latitude];
+  }
+  toString() {
+    return JSON.stringify(this, null, &apos;  &apos;);
+  }
+}
+module.exports = Coordinate;
+
+},{}],3:[function(require,module,exports){
+(function (global){
+global.Point = require(&apos;./Point&apos;);
+global.MultiPoint = require(&apos;./MultiPoint&apos;);
+global.LineString = require(&apos;./LineString&apos;);
+global.MultiLineString = require(&apos;./MultiLineString&apos;);
+global.Polygon = require(&apos;./Polygon&apos;);
+global.geo = require(&apos;../client side/geolocation&apos;);
+
+}).call(this,typeof global !== &quot;undefined&quot; ? global : typeof self !== &quot;undefined&quot; ? self : typeof window !== &quot;undefined&quot; ? window : {})
+},{&quot;../client side/geolocation&quot;:1,&quot;./LineString&quot;:5,&quot;./MultiLineString&quot;:6,&quot;./MultiPoint&quot;:7,&quot;./Point&quot;:8,&quot;./Polygon&quot;:9}],4:[function(require,module,exports){
+/**
+  * Geometry objects depend on position.
+  */
+let Position = require(&apos;./Position&apos;);
+/**
+  * Symbol to abstract type
+  */
+let TYPE = Symbol();
+/**
+  * Symbol to abstract coordinates
+  */
+let POS = Symbol();
+/**
+  * Abstract type representing GeoJSON objects. rfc7946 (GeoJSON) Section 3
+  * 
+  * @Interface
+  */
+class Geometry {
+  /** 
+    * Geometry constructor sets type and an empty position.
+    * 
+    * @param {String} type The type of GeoJSON object it is. These are listed in rfc7946 (GeoJSON) Section 3.1
+    */
+  constructor(type = &quot;&quot;) {
+    this[TYPE] = type;
+    this[POS] = new Position();
+  }
+  /** accessor for type attribute */
+  get type() {
+    return this[TYPE];
+  }
+  /**
+    * Method comparing two Geometries for equality.
+    * 
+    * @param {Geometry} RHS The geometry to compare to.
+    * @return {boolean} True if they are equal, otherwise false.
+    */
+  equals(RHS) {
+    if (this[TYPE] !== RHS[TYPE]) return false;
+    return this[POS].equals(RHS[POS]);
+  }
+  /**
+    * @override
+    * @return {Geometry} An object containing a type and position. 
+    */
+  toJSON() {
+    return {
+      type: this[TYPE],
+      coordinates: this[POS].toJSON()
+    };
+  }
+  toString() {
+    return JSON.stringify(this, null, &apos;  &apos;);
+  }
+}
+/** 
+  * attach the symbol for coordinates staticly to Geometry interface
+  * @property
+  */
+Geometry.coordinates = POS;
+module.exports = Geometry;
+
+},{&quot;./Position&quot;:10}],5:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let Geometry = require(&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+let Point = require(&apos;./Point&apos;);
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.4
+  * 
+  * LineStrings are multiple coordinate geometry objects that form a line.
+  */
+class LineString extends Geometry {
+  /**
+    * LineStrings need a minimum of two coordinates.
+    * 
+    * @param {Array &lt;Coordinate|Point&gt;} arguments All arguments are parsed and added. All must be
+    * coordinate type and at least two must be present.
+    * @throws {Error} Throws error when less than two arguments are provided.
+    * @throws {TypeError} Throws error when constructor argument is not Coordiante or Point type
+    */
+  constructor() {
+    super(&apos;LineString&apos;);
+    if (arguments.length &lt; 2) throw new Error(&apos;LineString constructor requires at least two arguments&apos;);
+    Array.from(arguments).forEach(coord =&gt; {
+      this.add(coord);
+    });
+  }
+  /**
+    * Add another coordinate to the line
+    * 
+    * @param {Coordinate|Point} coord The coordinate to add.
+    */
+  add(coord) {
+    if (coord instanceof Point) {
+      this[POS].add(coord.toCoordinate());
+    } else {
+      throw new TypeError(&apos;LineString can only add Coordinate or Point type&apos;);
+    }
+  }
+}
+module.exports = LineString;
+
+},{&quot;./Coordinate&quot;:2,&quot;./Geometry&quot;:4,&quot;./Point&quot;:8}],6:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let Geometry = require(&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+let LINES = Symbol();
+let LineString = require(&apos;./LineString&apos;);
+let Position = require(&apos;./Position&apos;);
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.5
+  * 
+  * MultiLineStrings are multiple coordinate array geometry objects that form lines.
+  */
+class MultiLineString extends Geometry {
+  /**
+    * MultiLineStrings can be created with any number of LineStrings.
+    * 
+    * @param {Array &lt;LineString&gt;} arguments All arguments are parsed and added. All must be
+    * coordinate type and at least two must be present.
+    */
+  constructor() {
+    super(&apos;MultiLineString&apos;);
+    this[LINES] = [];
+    Array.from(arguments).forEach(line =&gt; {
+      this.add(line);
+    });
+  }
+  /**
+    * Add a line to the list
+    * 
+    * @param {LineString} line The line to add.
+    */
+  add(line) {
+    if (line instanceof LineString) this[LINES].push(line);
+    this.update();
+  }
+  /**
+    * Remove a line from the list.
+    * 
+    * @param {LineString} line The line to remove.
+    */
+  remove(line) {
+    for (let i = 0; i &lt; this[LINES].length; i++) if (line.equals(this[LINES][i])) this[LINES].splice(i, 1);
+    this.update();
+  }
+  /**
+    * Update this object with the correct positions.
+    */
+  update() {
+    this[POS] = new Position();
+    this[LINES].forEach(line =&gt; {
+      this[POS].add(line[POS]);
+    });
+  }
+}
+module.exports = MultiLineString;
+
+},{&quot;./Coordinate&quot;:2,&quot;./Geometry&quot;:4,&quot;./LineString&quot;:5,&quot;./Position&quot;:10}],7:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let Geometry = require(&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+let Point = require(&apos;./Point&apos;);
+/**
+	* Implementation of rfc7946 (GeoJSON) Section 3.1.3
+	*/
+class MultiPoint extends Geometry {
+	/**
+ 	* Arguments list is parsed and added.
+ 	* 
+ 	* @param {Array &lt;Coordinate|Point&gt;} [arguments] All arguments are added.
+    * @throws {TypeError} Throws error when constructor argument is not Coordiante type
+ 	*/
+	constructor() {
+		super(&apos;MultiPoint&apos;);
+		Array.from(arguments).forEach(coord =&gt; {
+			this.add(coord);
+		});
+	}
+	/**
+ 	* Retrtieve a single Point at a specific index.
+ 	* 
+ 	* @param {Number} index The point to select.
+ 	*	@return {Point} The found point.
+ 	*/
+	at(index) {
+		return this[POS].at(index);
+	}
+	/**
+ 	* Adds a Coordinate or Point to this.
+ 	* 
+ 	* @param {Point} coord The Point to add.
+    * @throws {TypeError} Throws error when constructor argument is not Point type
+ 	*/
+	add(coord) {
+		if (coord instanceof Point) {
+			this.add(coord.toCoordinate());
+		} else {
+			throw new TypeError(&apos;MultiPoint can only add Coordinate or Point type&apos;);
+		}
+	}
+	/**
+ 	* Remove a coordinate or point from this.
+ 	* 
+ 	* @param {Coordinate|Point} coord The coordinate to remove.
+ 	*/
+	remove(coord) {
+		if (coord instanceof Coordinate) this[POS].remove(coord);
+	}
+}
+module.exports = MultiPoint;
+
+},{&quot;./Coordinate&quot;:2,&quot;./Geometry&quot;:4,&quot;./Point&quot;:8}],8:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let Geometry = require(&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+/**
+	* Implementation of rfc7946 (GeoJSON) Section 3.1.2
+	* 
+	* Points are single coordinate geometry objects.
+	*/
+class Point extends Geometry {
+	/**
+ 	* Initializes the longitude and latitude.
+ 	* 
+ 	*	@param {number} [longitude=0] The initial longitude.
+ 	*	@param {number} [latitude=0] The initial latitude.
+ 	*/
+	constructor(longitude = 0, latitude = 0) {
+		super(&apos;Point&apos;);
+		this[POS].add(new Coordinate(longitude, latitude));
+	}
+	/**
+ 	* get longitude
+ 	*/
+	get longitude() {
+		return this[POS].at(0).longitude;
+	}
+	/**
+ 	* set longitude
+ 	*/
+	set longitude(value) {
+		this[POS].at(0).longitude = value;
+	}
+	/**
+ 	* set latitude
+ 	*/
+	get latitude() {
+		return this[POS].at(0).latitude;
+	}
+	/**
+ 	* set latitude
+ 	*/
+	set latitude(value) {
+		this[POS].at(0).latitude = value;
+	}
+	/**
+ 	* Return this point as a Coordinate type.
+ 	* 
+ 	* @return {Coordinate} This point as a coordinate type.
+ 	*/
+	toCoordinate() {
+		return new Coordinate(this.longitude, this.latitude);
+	}
+}
+module.exports = Point;
+
+},{&quot;./Coordinate&quot;:2,&quot;./Geometry&quot;:4}],9:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let Geometry = require(&apos;./Geometry&apos;);
+let POS = Geometry.coordinates;
+let Position = require(&apos;./Position&apos;);
+let Point = require(&apos;./Point&apos;);
+let coords = Symbol();
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.6
+  */
+class Polygon extends Geometry {
+  /**
+    * Arguments list is parsed and added. The first element is added as the last element.
+    * Minimum 4 arguments required
+    * @param {Array &lt;Coordinate|Point&gt;} [arguments] All arguments are added.
+    * @throws {Error} Throws error when constructor argument list is smaller than 3.
+    */
+  constructor() {
+    super(&apos;Polygon&apos;);
+    this[coords] = [];
+    Array.from(arguments).forEach(coord =&gt; {
+      this.add(coord);
+    });
+  }
+  /**
+    * Add a point to the polygon.
+    * @override
+    * @param {Point} point The Point to add.
+    */
+  add(point) {
+    this[coords].push(point);
+    this.update();
+  }
+  /**
+    * 
+    */
+  remove(point) {
+    if (!(point instanceof Point)) return;
+    for (let i = 0; i &lt; this[coords].length; i++) if (point.equals(this[coords][i])) {
+      this[coords].splice(i, 1);
+      return update();
+    }
+  }
+  /**
+    * Update the coordinates in the polygon.
+    */
+  update() {
+    if (this[coords].length &lt; 3) return;
+    this[POS] = new Position();
+    this[coords].forEach(point =&gt; {
+      this[POS].add(point.toCoordinate());
+    });
+    this[POS].add(this[coords][0].toCoordinate());
+  }
+}
+
+module.exports = Polygon;
+
+},{&quot;./Coordinate&quot;:2,&quot;./Geometry&quot;:4,&quot;./Point&quot;:8,&quot;./Position&quot;:10}],10:[function(require,module,exports){
+let Coordinate = require(&apos;./Coordinate&apos;);
+let arr = Symbol();
+/**
+  * Implementation of rfc7946 (GeoJSON) Section 3.1.1
+  * 
+  * A position is an abstract, list-like structure
+  * conatining coordinates or other position objects.
+  * A Position can represent the coordinates attribute
+  * of any GeoJSON geometry object.
+  */
+class Position {
+  /**
+    * Initializes the array, ignores all arguments.
+    */
+  constructor() {
+    this[arr] = [];
+  }
+  /**
+    * Adds a coordinate or position at an optionally provided position index.
+    * 
+    * @param {Coordinate|Position} coordinate The coordinte object to add.
+    * @param (Number) [position] Index of the position object to add it to.
+    * @returns {Position} Returns &apos;this&apos; object
+    * @throws {Error} If coordinate argument is not a valid type.
+    */
+  add(coordinate, position) {
+    let pos = !!position;
+    if (coordinate instanceof Coordinate) {
+      if (pos) {
+        this[arr][pos].push(coordinate);
+      } else {
+        this[arr].push(coordinate);
+      }
+    } else if (coordinate instanceof Position) {
+      if (pos) {
+        this[arr][pos].push(coordinate);
+      } else {
+        this[arr].push(coordinate);
+      }
+    } else {
+      throw new Error(&apos;added points must be &quot;coordinate&quot; or &quot;position&quot; type&apos;);
+    }
+    return this;
+  }
+  /**
+    * Removes the first instance found of the provided Coordinate or Position.
+    * 
+    * @param {Coordinate|Position} coordinate The element to remove.
+    * @return {Position} Returns &apos;this&apos; object
+    */
+  remove(coordinate) {
+    if (coordinate instanceof Coordinate || coordinate instanceof Position) {
+      for (let i = 0; i &lt; this.length; i++) if (coordinate.equals(this[i])) {
+        this[arr].splice(i, 1);
+        return this;
+      }
+    } else {
+      throw new Error(&apos;can only remove &quot;coordinate&quot; or &quot;position&quot; types&apos;);
+    }
+    return this;
+  }
+  /**
+    * Access the element at the provided index.
+    * 
+    * @param {Number} index The index to access.
+    * @returns {Coordinate|Position} The element found.
+    */
+  at(index) {
+    return this[arr][index];
+  }
+  /**
+    * Checks if the provided element is in this Position.
+    * 
+    * @param {Coordinate|Position} element The element to look for.
+    * @return {boolean} Whether the element is in this Position.
+    */
+  has(element) {
+    if (!(element instanceof Coordinate || element instanceof Position)) throw new Error(&apos;provided argument must be Coordinate or Position type&apos;);
+    this[arr].forEach(_this =&gt; {
+      if (element.equals(_this)) return true;
+    });
+  }
+  /**
+    * Get the Number of elements in this Position.
+    * This is a one-dimensional search
+    * and does not count sub-position coordinates or positions
+    * 
+    * @returns {Number} The size of this Position.
+    */
+  size() {
+    return this[arr].length;
+  }
+  /**
+    * Check equality of this position and another position.
+    * Compares all coordinates and sub-coordinates.
+    * 
+    * @param {Position} position The position to compare against.
+    * @returns {boolean} True if all coordinates and sub-coordinates are equal.
+    */
+  equals(position) {
+    if (!(position instanceof Position)) return false;
+    if (this.size() !== position.size()) return false;
+    for (let i = 0; i &lt; this.size(); i++) if (!this.at(i).equals(position.at(i))) return false;
+    return true;
+  }
+  /**
+    * @override
+    */
+  toJSON() {
+    if (this[arr].length === 1 &amp;&amp; this[arr][0] instanceof Coordinate) return this[arr][0].toJSON();
+    let ret = [];
+    this[arr].forEach(el =&gt; {
+      ret.push(el.toJSON());
+    });
+    return ret;
+  }
+  toString() {
+    return JSON.stringify(this, null, &apos;  &apos;);
+  }
+}
+
+module.exports = Position;
+
+},{&quot;./Coordinate&quot;:2}]},{},[3]);
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

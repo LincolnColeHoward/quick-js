@@ -1,4 +1,3 @@
-'use strict'
 let Coordinate = require ('./Coordinate');
 let Geometry = require ('./Geometry');
 let POS = Geometry.coordinates;
@@ -31,9 +30,7 @@ class LineString extends Geometry {
     * @param {Coordinate|Point} coord The coordinate to add.
     */
   add (coord) {
-    if (coord instanceof Coordinate) {
-      this [POS].add (coord);
-    } else if (coord instanceof Point) {
+    if (coord instanceof Point) {
       this [POS].add (coord.toCoordinate ());
     } else {
       throw new TypeError ('LineString can only add Coordinate or Point type');

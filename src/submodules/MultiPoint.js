@@ -1,4 +1,3 @@
-'use strict'
 let Coordinate = require ('./Coordinate');
 let Geometry = require ('./Geometry');
 let POS = Geometry.coordinates;
@@ -20,15 +19,22 @@ class MultiPoint extends Geometry {
 		})
 	}
 	/**
+		* Retrtieve a single Point at a specific index.
+		* 
+		* @param {Number} index The point to select.
+		*	@return {Point} The found point.
+		*/
+	at (index) {
+		return this [POS].at (index);
+	}
+	/**
 		* Adds a Coordinate or Point to this.
 		* 
-		* @param {Coordinate|Point} coord The coordinate to add.
-    * @throws {TypeError} Throws error when constructor argument is not Coordiante or Point type
+		* @param {Point} coord The Point to add.
+    * @throws {TypeError} Throws error when constructor argument is not Point type
 		*/
 	add (coord) {
-		if (coord instanceof Coordinate) {
-			this [POS].add (coord);
-		} else if (coord instanceof Point) {
+		if (coord instanceof Point) {
 			this.add (coord.toCoordinate ());
 		} else {
 			throw new TypeError ('MultiPoint can only add Coordinate or Point type');

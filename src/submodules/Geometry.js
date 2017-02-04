@@ -1,15 +1,5 @@
-'use strict'
-/**
-  * Geometry objects depend on position.
-  */
 let Position = require ('./Position');
-/**
-  * Symbol to abstract type
-  */
 let TYPE = Symbol ();
-/**
-  * Symbol to abstract coordinates
-  */
 let POS = Symbol ();
 /**
   * Abstract type representing GeoJSON objects. rfc7946 (GeoJSON) Section 3
@@ -31,6 +21,16 @@ class Geometry {
     return this [TYPE];
   }
   /**
+    * Method comparing two Geometries for equality.
+    * 
+    * @param {Geometry} RHS The geometry to compare to.
+    * @return {boolean} True if they are equal, otherwise false.
+    */
+  equals (RHS) {
+    if (this [TYPE] !== RHS [TYPE]) return false;
+    return this [POS].equals (RHS [POS]);
+  }
+  /**
     * @override
     * @return {Geometry} An object containing a type and position. 
     */
@@ -39,6 +39,9 @@ class Geometry {
       type: this [TYPE],
       coordinates: this [POS].toJSON ()
     }
+  }
+  toString () {
+    return JSON.stringify (this, null, '  ');
   }
 }
 /** 
