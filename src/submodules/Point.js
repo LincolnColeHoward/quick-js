@@ -59,7 +59,7 @@ class Point extends Geometry {
   	if (typeof obj === 'string' || obj instanceof String)
       obj = JSON.parse (obj);
     if (!obj.type === 'point') return;
-    return new Point (obj.coordinates.longitude, obj.coordinates.latitude);
+    return new Point (obj.coordinates [0], obj.coordinates [1]);
 	}
 }
 module.exports = Point;
