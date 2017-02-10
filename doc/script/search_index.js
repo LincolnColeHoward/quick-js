@@ -6,6 +6,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "quick-js/src/submodules/feature.js~feature",
+    "class/src/submodules/Feature.js~Feature.html",
+    "<span>Feature</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Feature.js</span>",
+    "class"
+  ],
+  [
     "quick-js/src/submodules/geometry.js~geometry",
     "class/src/submodules/Geometry.js~Geometry.html",
     "<span>Geometry</span> <span class=\"search-result-import-path\">quick-js/src/submodules/Geometry.js</span>",
@@ -492,6 +498,66 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/submodules/feature.js",
+    "file/src/submodules/Feature.js.html",
+    "src/submodules/Feature.js",
+    "file"
+  ],
+  [
+    "src/submodules/feature.js~feature#bbox",
+    "class/src/submodules/Feature.js~Feature.html#instance-member-bbox",
+    "src/submodules/Feature.js~Feature#bbox",
+    "member"
+  ],
+  [
+    "src/submodules/feature.js~feature#bbox_end",
+    "class/src/submodules/Feature.js~Feature.html#instance-set-bbox_end",
+    "src/submodules/Feature.js~Feature#bbox_end",
+    "member"
+  ],
+  [
+    "src/submodules/feature.js~feature#bbox_start",
+    "class/src/submodules/Feature.js~Feature.html#instance-set-bbox_start",
+    "src/submodules/Feature.js~Feature#bbox_start",
+    "member"
+  ],
+  [
+    "src/submodules/feature.js~feature#constructor",
+    "class/src/submodules/Feature.js~Feature.html#instance-constructor-constructor",
+    "src/submodules/Feature.js~Feature#constructor",
+    "method"
+  ],
+  [
+    "src/submodules/feature.js~feature#geometry",
+    "class/src/submodules/Feature.js~Feature.html#instance-member-geometry",
+    "src/submodules/Feature.js~Feature#geometry",
+    "member"
+  ],
+  [
+    "src/submodules/feature.js~feature#remove",
+    "class/src/submodules/Feature.js~Feature.html#instance-method-remove",
+    "src/submodules/Feature.js~Feature#remove",
+    "method"
+  ],
+  [
+    "src/submodules/feature.js~feature#set",
+    "class/src/submodules/Feature.js~Feature.html#instance-method-set",
+    "src/submodules/Feature.js~Feature#set",
+    "method"
+  ],
+  [
+    "src/submodules/feature.js~feature#tojson",
+    "class/src/submodules/Feature.js~Feature.html#instance-method-toJSON",
+    "src/submodules/Feature.js~Feature#toJSON",
+    "method"
+  ],
+  [
+    "src/submodules/feature.js~feature#tostring",
+    "class/src/submodules/Feature.js~Feature.html#instance-method-toString",
+    "src/submodules/Feature.js~Feature#toString",
+    "method"
+  ],
+  [
     "src/submodules/geojson.js",
     "file/src/submodules/GeoJSON.js.html",
     "src/submodules/GeoJSON.js",
@@ -526,6 +592,12 @@ window.esdocSearchIndex = [
     "class/src/submodules/Geometry.js~Geometry.html#instance-get-type",
     "src/submodules/Geometry.js~Geometry#type",
     "member"
+  ],
+  [
+    "src/submodules/geometrycollection.js",
+    "file/src/submodules/GeometryCollection.js.html",
+    "src/submodules/GeometryCollection.js",
+    "file"
   ],
   [
     "src/submodules/linestring.js",

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/client side/geolocation.js | API Document</title>
+  <title data-ice="title">src/submodules/Feature.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -47,21 +47,94 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/client side/geolocation.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">src/submodules/Feature.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">let Geometry = require (&apos;./Geometry&apos;);
+let Point = require (&apos;./Point&apos;);
+let props = Symbol ();
 /**
-  * A GeoJSON wrapper for browser geolocation api.
-  * @param {Function} cb Handle 
+  * Represents a GeoJSON feature.
   */
-function geo (cb) {
-  navigator.geolocation.getCurrentPosition ((position) =&gt; {
-    cb (null, new Point (position.coords.longitude, position.coords.latitude));
-  }, () =&gt; {
-    cb (&apos;error&apos;);
-  });
+class Feature {
+  /**
+    * Initialize the feature with a geometry.
+    * 
+    * @param {Geometry} geometry The initial geometry to wrap.
+    */
+  constructor (geometry) {
+    /**
+      * The geometry object to wrap.
+      */
+    this.geometry = geometry;
+    /**
+      * The bounds for the geometry.
+      */
+    this.bbox = undefined;
+    this [props] = {};
+  }
+  /**
+    * Set the end corner of the bbox.
+    */
+  set bbox_end (point) {
+    if (!(point instanceof Point)) return;
+    if (!this.bbox) this.bbox = {};
+    this.bbox.end = point;
+  }
+  /**
+    * Set the start corner of the bbox.
+    */
+  set bbox_start (point) {
+    if (!(point instanceof Point)) return;
+    if (!this.bbox) this.bbox = {};
+    this.bbox.start = point;
+  }
+  /**
+    * Set a property key/value pair.
+    * 
+    * @param {String} k The key to set.
+    * @param {Object} v The value to set.
+    * @return {Feature} Returns this object.
+    */
+  set (k, v) {
+    this [props] [k] = v;
+    return this;
+  }
+  /**
+    * Un-set a property key/value pair.
+    * 
+    * @param {String} k The key to un-set.
+    * @return {Feature} Returns this object.
+    */
+  remove (k) {
+    delete this [props] [k];
+    return this;
+  }
+  /**
+    * @override
+    */
+  toJSON () {
+    let ret = {
+      type: &apos;Feature&apos;,
+      geometry: this.geometry.toJSON (),
+      properties: this [props]
+    }
+    if (this.bbox)
+      ret.bbox = [
+        this.bbox.start.longitude,
+        this.bbox.start.latitude,
+        this.bbox.end.longitude,
+        this.bbox.end.latitude
+      ]
+    return ret;
+  }
+  /**
+    * @override
+    */
+  toString () {
+    return JSON.stringify (this.toJSON (), null, &apos;  &apos;);
+  }
 }
 
-module.exports = geo;</code></pre>
+module.exports = Feature;</code></pre>
 
 </div>
 

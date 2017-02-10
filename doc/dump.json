@@ -491,8 +491,390 @@
   {
     "__docId__": 23,
     "kind": "file",
+    "name": "src/submodules/Feature.js",
+    "content": "let Geometry = require ('./Geometry');\nlet Point = require ('./Point');\nlet props = Symbol ();\n/**\n  * Represents a GeoJSON feature.\n  */\nclass Feature {\n  /**\n    * Initialize the feature with a geometry.\n    * \n    * @param {Geometry} geometry The initial geometry to wrap.\n    */\n  constructor (geometry) {\n    /**\n      * The geometry object to wrap.\n      */\n    this.geometry = geometry;\n    /**\n      * The bounds for the geometry.\n      */\n    this.bbox = undefined;\n    this [props] = {};\n  }\n  /**\n    * Set the end corner of the bbox.\n    */\n  set bbox_end (point) {\n    if (!(point instanceof Point)) return;\n    if (!this.bbox) this.bbox = {};\n    this.bbox.end = point;\n  }\n  /**\n    * Set the start corner of the bbox.\n    */\n  set bbox_start (point) {\n    if (!(point instanceof Point)) return;\n    if (!this.bbox) this.bbox = {};\n    this.bbox.start = point;\n  }\n  /**\n    * Set a property key/value pair.\n    * \n    * @param {String} k The key to set.\n    * @param {Object} v The value to set.\n    * @return {Feature} Returns this object.\n    */\n  set (k, v) {\n    this [props] [k] = v;\n    return this;\n  }\n  /**\n    * Un-set a property key/value pair.\n    * \n    * @param {String} k The key to un-set.\n    * @return {Feature} Returns this object.\n    */\n  remove (k) {\n    delete this [props] [k];\n    return this;\n  }\n  /**\n    * @override\n    */\n  toJSON () {\n    let ret = {\n      type: 'Feature',\n      geometry: this.geometry.toJSON (),\n      properties: this [props]\n    }\n    if (this.bbox)\n      ret.bbox = [\n        this.bbox.start.longitude,\n        this.bbox.start.latitude,\n        this.bbox.end.longitude,\n        this.bbox.end.latitude\n      ]\n    return ret;\n  }\n  /**\n    * @override\n    */\n  toString () {\n    return JSON.stringify (this.toJSON (), null, '  ');\n  }\n}\n\nmodule.exports = Feature;",
+    "static": true,
+    "longname": "src/submodules/Feature.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 24,
+    "kind": "variable",
+    "name": "Geometry",
+    "memberof": "src/submodules/Feature.js",
+    "static": true,
+    "longname": "src/submodules/Feature.js~Geometry",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Feature.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "variable",
+    "name": "Point",
+    "memberof": "src/submodules/Feature.js",
+    "static": true,
+    "longname": "src/submodules/Feature.js~Point",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Feature.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 26,
+    "kind": "variable",
+    "name": "props",
+    "memberof": "src/submodules/Feature.js",
+    "static": true,
+    "longname": "src/submodules/Feature.js~props",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Feature.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 27,
+    "kind": "class",
+    "name": "Feature",
+    "memberof": "src/submodules/Feature.js",
+    "static": true,
+    "longname": "src/submodules/Feature.js~Feature",
+    "access": null,
+    "export": false,
+    "importPath": "quick-js/src/submodules/Feature.js",
+    "importStyle": null,
+    "description": "Represents a GeoJSON feature.",
+    "lineNumber": 7,
+    "interface": false
+  },
+  {
+    "__docId__": 28,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#constructor",
+    "access": null,
+    "description": "Initialize the feature with a geometry.",
+    "lineNumber": 13,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Geometry"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "geometry",
+        "description": "The initial geometry to wrap."
+      }
+    ]
+  },
+  {
+    "__docId__": 29,
+    "kind": "member",
+    "name": "geometry",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#geometry",
+    "access": null,
+    "description": "The geometry object to wrap.",
+    "lineNumber": 17,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 30,
+    "kind": "member",
+    "name": "bbox",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#bbox",
+    "access": null,
+    "description": "The bounds for the geometry.",
+    "lineNumber": 21,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 31,
+    "kind": "member",
+    "name": "[props]",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#[props]",
+    "access": null,
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 32,
+    "kind": "set",
+    "name": "bbox_end",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#bbox_end",
+    "access": null,
+    "description": "Set the end corner of the bbox.",
+    "lineNumber": 27,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 33,
+    "kind": "member",
+    "name": "bbox",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#bbox",
+    "access": null,
+    "description": null,
+    "lineNumber": 29,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 34,
+    "kind": "set",
+    "name": "bbox_start",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#bbox_start",
+    "access": null,
+    "description": "Set the start corner of the bbox.",
+    "lineNumber": 35,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 35,
+    "kind": "member",
+    "name": "bbox",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#bbox",
+    "access": null,
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 36,
+    "kind": "method",
+    "name": "set",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#set",
+    "access": null,
+    "description": "Set a property key/value pair.",
+    "lineNumber": 47,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "k",
+        "description": "The key to set."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "v",
+        "description": "The value to set."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Feature"
+      ],
+      "spread": false,
+      "description": "Returns this object."
+    }
+  },
+  {
+    "__docId__": 37,
+    "kind": "method",
+    "name": "remove",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#remove",
+    "access": null,
+    "description": "Un-set a property key/value pair.",
+    "lineNumber": 57,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "k",
+        "description": "The key to un-set."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Feature"
+      ],
+      "spread": false,
+      "description": "Returns this object."
+    }
+  },
+  {
+    "__docId__": 38,
+    "kind": "method",
+    "name": "toJSON",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#toJSON",
+    "access": null,
+    "description": "",
+    "lineNumber": 64,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "override": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "method",
+    "name": "toString",
+    "memberof": "src/submodules/Feature.js~Feature",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/submodules/Feature.js~Feature#toString",
+    "access": null,
+    "description": "",
+    "lineNumber": 82,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "override": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "file",
     "name": "src/submodules/GeoJSON.js",
-    "content": "global.Point = require ('./Point');\nglobal.MultiPoint = require ('./MultiPoint');\nglobal.LineString = require ('./LineString');\nglobal.MultiLineString = require ('./MultiLineString');\nglobal.Polygon = require ('./Polygon');\nglobal.geo = require ('../client side/geolocation');",
+    "content": "exports.Point = require ('./Point');\nexports.MultiPoint = require ('./MultiPoint');\nexports.LineString = require ('./LineString');\nexports.MultiLineString = require ('./MultiLineString');\nexports.Polygon = require ('./Polygon');\nexports.geo = require ('../client side/geolocation');",
     "static": true,
     "longname": "src/submodules/GeoJSON.js",
     "access": null,
@@ -500,7 +882,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 24,
+    "__docId__": 41,
     "kind": "file",
     "name": "src/submodules/Geometry.js",
     "content": "let Position = require ('./Position');\nlet TYPE = Symbol ();\nlet POS = Symbol ();\n/**\n  * Abstract type representing GeoJSON objects. rfc7946 (GeoJSON) Section 3\n  * \n  * @Interface\n  */\nclass Geometry {\n  /** \n    * Geometry constructor sets type and an empty position.\n    * \n    * @param {String} type The type of GeoJSON object it is. These are listed in rfc7946 (GeoJSON) Section 3.1\n    */\n  constructor (type=\"\") {\n    this [TYPE] = type;\n    this [POS] = new Position ();\n  }\n  /** accessor for type attribute */\n  get type () {\n    return this [TYPE];\n  }\n  /**\n    * Method comparing two Geometries for equality.\n    * \n    * @param {Geometry} RHS The geometry to compare to.\n    * @return {boolean} True if they are equal, otherwise false.\n    */\n  equals (RHS) {\n    if (this [TYPE] !== RHS [TYPE]) return false;\n    return this [POS].equals (RHS [POS]);\n  }\n  /**\n    * @override\n    * @return {Geometry} An object containing a type and position. \n    */\n  toJSON () {\n    return {\n      type: this [TYPE],\n      coordinates: this [POS].toJSON ()\n    }\n  }\n  toString () {\n    return JSON.stringify (this, null, '  ');\n  }\n}\n/** \n  * attach the symbol for coordinates staticly to Geometry interface\n  * @property\n  */\nGeometry.coordinates = POS;\nmodule.exports = Geometry;",
@@ -511,7 +893,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 25,
+    "__docId__": 42,
     "kind": "variable",
     "name": "Position",
     "memberof": "src/submodules/Geometry.js",
@@ -537,7 +919,7 @@
     }
   },
   {
-    "__docId__": 26,
+    "__docId__": 43,
     "kind": "variable",
     "name": "TYPE",
     "memberof": "src/submodules/Geometry.js",
@@ -563,7 +945,7 @@
     }
   },
   {
-    "__docId__": 27,
+    "__docId__": 44,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/Geometry.js",
@@ -589,7 +971,7 @@
     }
   },
   {
-    "__docId__": 28,
+    "__docId__": 45,
     "kind": "class",
     "name": "Geometry",
     "memberof": "src/submodules/Geometry.js",
@@ -610,7 +992,7 @@
     "interface": false
   },
   {
-    "__docId__": 29,
+    "__docId__": 46,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -635,7 +1017,7 @@
     ]
   },
   {
-    "__docId__": 30,
+    "__docId__": 47,
     "kind": "member",
     "name": "[TYPE]",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -658,7 +1040,7 @@
     }
   },
   {
-    "__docId__": 31,
+    "__docId__": 48,
     "kind": "member",
     "name": "[POS]",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -681,7 +1063,7 @@
     }
   },
   {
-    "__docId__": 32,
+    "__docId__": 49,
     "kind": "get",
     "name": "type",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -699,7 +1081,7 @@
     }
   },
   {
-    "__docId__": 33,
+    "__docId__": 50,
     "kind": "method",
     "name": "equals",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -732,7 +1114,7 @@
     }
   },
   {
-    "__docId__": 34,
+    "__docId__": 51,
     "kind": "method",
     "name": "toJSON",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -755,7 +1137,7 @@
     "override": true
   },
   {
-    "__docId__": 35,
+    "__docId__": 52,
     "kind": "method",
     "name": "toString",
     "memberof": "src/submodules/Geometry.js~Geometry",
@@ -781,7 +1163,18 @@
     }
   },
   {
-    "__docId__": 36,
+    "__docId__": 53,
+    "kind": "file",
+    "name": "src/submodules/GeometryCollection.js",
+    "content": "",
+    "static": true,
+    "longname": "src/submodules/GeometryCollection.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 54,
     "kind": "file",
     "name": "src/submodules/LineString.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\nlet Point = require ('./Point');\n/**\n  * Implementation of rfc7946 (GeoJSON) Section 3.1.4\n  * \n  * LineStrings are multiple coordinate geometry objects that form a line.\n  */\nclass LineString extends Geometry {\n  /**\n    * LineStrings need a minimum of two coordinates.\n    * \n    * @param {Array <Coordinate|Point>} arguments All arguments are parsed and added. All must be\n    * coordinate type and at least two must be present.\n    * @throws {Error} Throws error when less than two arguments are provided.\n    * @throws {TypeError} Throws error when constructor argument is not Coordiante or Point type\n    */\n  constructor () {\n    super ('LineString');\n    if (arguments.length < 2)\n      throw new Error ('LineString constructor requires at least two arguments');\n    Array.from (arguments).forEach ((coord) => {\n      this.add (coord);\n    });\n  }\n  /**\n    * Add another coordinate to the line\n    * \n    * @param {Coordinate|Point} coord The coordinate to add.\n    */\n  add (coord) {\n    if (coord instanceof Point) {\n      this [POS].add (coord.toCoordinate ());\n    } else {\n      throw new TypeError ('LineString can only add Coordinate or Point type');\n    }\n  }\n}\nmodule.exports = LineString",
@@ -792,7 +1185,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 37,
+    "__docId__": 55,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/LineString.js",
@@ -818,7 +1211,7 @@
     }
   },
   {
-    "__docId__": 38,
+    "__docId__": 56,
     "kind": "variable",
     "name": "Geometry",
     "memberof": "src/submodules/LineString.js",
@@ -844,7 +1237,7 @@
     }
   },
   {
-    "__docId__": 39,
+    "__docId__": 57,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/LineString.js",
@@ -870,7 +1263,7 @@
     }
   },
   {
-    "__docId__": 40,
+    "__docId__": 58,
     "kind": "variable",
     "name": "Point",
     "memberof": "src/submodules/LineString.js",
@@ -896,7 +1289,7 @@
     }
   },
   {
-    "__docId__": 41,
+    "__docId__": 59,
     "kind": "class",
     "name": "LineString",
     "memberof": "src/submodules/LineString.js",
@@ -914,7 +1307,7 @@
     ]
   },
   {
-    "__docId__": 42,
+    "__docId__": 60,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/LineString.js~LineString",
@@ -953,7 +1346,7 @@
     ]
   },
   {
-    "__docId__": 43,
+    "__docId__": 61,
     "kind": "method",
     "name": "add",
     "memberof": "src/submodules/LineString.js~LineString",
@@ -979,7 +1372,7 @@
     ]
   },
   {
-    "__docId__": 44,
+    "__docId__": 62,
     "kind": "file",
     "name": "src/submodules/MultiLineString.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\nlet LINES = Symbol ();\nlet LineString = require ('./LineString');\nlet Position = require ('./Position');\n/**\n  * Implementation of rfc7946 (GeoJSON) Section 3.1.5\n  * \n  * MultiLineStrings are multiple coordinate array geometry objects that form lines.\n  */\nclass MultiLineString extends Geometry {\n  /**\n    * MultiLineStrings can be created with any number of LineStrings.\n    * \n    * @param {Array <LineString>} arguments All arguments are parsed and added. All must be\n    * coordinate type and at least two must be present.\n    */\n  constructor () {\n    super ('MultiLineString');\n    this [LINES] = [];\n    Array.from (arguments).forEach ((line) => {\n      this.add (line);\n    });\n  }\n  /**\n    * Add a line to the list\n    * \n    * @param {LineString} line The line to add.\n    */\n  add (line) {\n    if (line instanceof LineString)\n      this [LINES].push (line);\n    this.update ();\n  }\n  /**\n    * Remove a line from the list.\n    * \n    * @param {LineString} line The line to remove.\n    */\n  remove (line) {\n    for (let i = 0; i < this [LINES].length; i++)\n      if (line.equals (this [LINES] [i]))\n        this [LINES].splice (i, 1);\n    this.update ();\n  }\n  /**\n    * Update this object with the correct positions.\n    */\n  update () {\n    this [POS] = new Position ();\n    this [LINES].forEach ((line) => {\n      this [POS].add (line [POS]);\n    });\n  }\n}\nmodule.exports = MultiLineString;",
@@ -990,7 +1383,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 45,
+    "__docId__": 63,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1016,7 +1409,7 @@
     }
   },
   {
-    "__docId__": 46,
+    "__docId__": 64,
     "kind": "variable",
     "name": "Geometry",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1042,7 +1435,7 @@
     }
   },
   {
-    "__docId__": 47,
+    "__docId__": 65,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1068,7 +1461,7 @@
     }
   },
   {
-    "__docId__": 48,
+    "__docId__": 66,
     "kind": "variable",
     "name": "LINES",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1094,7 +1487,7 @@
     }
   },
   {
-    "__docId__": 49,
+    "__docId__": 67,
     "kind": "variable",
     "name": "LineString",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1120,7 +1513,7 @@
     }
   },
   {
-    "__docId__": 50,
+    "__docId__": 68,
     "kind": "variable",
     "name": "Position",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1146,7 +1539,7 @@
     }
   },
   {
-    "__docId__": 51,
+    "__docId__": 69,
     "kind": "class",
     "name": "MultiLineString",
     "memberof": "src/submodules/MultiLineString.js",
@@ -1164,7 +1557,7 @@
     ]
   },
   {
-    "__docId__": 52,
+    "__docId__": 70,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1189,7 +1582,7 @@
     ]
   },
   {
-    "__docId__": 53,
+    "__docId__": 71,
     "kind": "member",
     "name": "[LINES]",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1212,7 +1605,7 @@
     }
   },
   {
-    "__docId__": 54,
+    "__docId__": 72,
     "kind": "method",
     "name": "add",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1237,7 +1630,7 @@
     ]
   },
   {
-    "__docId__": 55,
+    "__docId__": 73,
     "kind": "method",
     "name": "remove",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1262,7 +1655,7 @@
     ]
   },
   {
-    "__docId__": 56,
+    "__docId__": 74,
     "kind": "method",
     "name": "update",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1276,7 +1669,7 @@
     "params": []
   },
   {
-    "__docId__": 57,
+    "__docId__": 75,
     "kind": "member",
     "name": "[POS]",
     "memberof": "src/submodules/MultiLineString.js~MultiLineString",
@@ -1299,7 +1692,7 @@
     }
   },
   {
-    "__docId__": 58,
+    "__docId__": 76,
     "kind": "file",
     "name": "src/submodules/MultiPoint.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\nlet Point = require ('./Point');\n/**\n\t* Implementation of rfc7946 (GeoJSON) Section 3.1.3\n\t*/\nclass MultiPoint extends Geometry {\n\t/**\n\t\t* Arguments list is parsed and added.\n\t\t* \n\t\t* @param {Array <Coordinate|Point>} [arguments] All arguments are added.\n    * @throws {TypeError} Throws error when constructor argument is not Coordiante type\n\t\t*/\n\tconstructor () {\n\t\tsuper ('MultiPoint');\n\t\tArray.from (arguments).forEach ((coord) => {\n\t\t\tthis.add (coord);\n\t\t})\n\t}\n\t/**\n\t\t* Retrtieve a single Point at a specific index.\n\t\t* \n\t\t* @param {Number} index The point to select.\n\t\t*\t@return {Point} The found point.\n\t\t*/\n\tat (index) {\n\t\treturn this [POS].at (index);\n\t}\n\t/**\n\t\t* Adds a Coordinate or Point to this.\n\t\t* \n\t\t* @param {Point} coord The Point to add.\n    * @throws {TypeError} Throws error when constructor argument is not Point type\n\t\t*/\n\tadd (coord) {\n\t\tif (coord instanceof Point) {\n\t\t\tthis.add (coord.toCoordinate ());\n\t\t} else {\n\t\t\tthrow new TypeError ('MultiPoint can only add Coordinate or Point type');\n\t\t}\n\t}\n\t/**\n\t\t* Remove a coordinate or point from this.\n\t\t* \n\t\t* @param {Coordinate|Point} coord The coordinate to remove.\n\t\t*/\n\tremove (coord) {\n\t\tif (coord instanceof Coordinate)\n\t\t\tthis [POS].remove (coord);\n\t}\n}\nmodule.exports = MultiPoint;",
@@ -1310,7 +1703,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 59,
+    "__docId__": 77,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/MultiPoint.js",
@@ -1336,7 +1729,7 @@
     }
   },
   {
-    "__docId__": 60,
+    "__docId__": 78,
     "kind": "variable",
     "name": "Geometry",
     "memberof": "src/submodules/MultiPoint.js",
@@ -1362,7 +1755,7 @@
     }
   },
   {
-    "__docId__": 61,
+    "__docId__": 79,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/MultiPoint.js",
@@ -1388,7 +1781,7 @@
     }
   },
   {
-    "__docId__": 62,
+    "__docId__": 80,
     "kind": "variable",
     "name": "Point",
     "memberof": "src/submodules/MultiPoint.js",
@@ -1414,7 +1807,7 @@
     }
   },
   {
-    "__docId__": 63,
+    "__docId__": 81,
     "kind": "class",
     "name": "MultiPoint",
     "memberof": "src/submodules/MultiPoint.js",
@@ -1432,7 +1825,7 @@
     ]
   },
   {
-    "__docId__": 64,
+    "__docId__": 82,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/MultiPoint.js~MultiPoint",
@@ -1465,7 +1858,7 @@
     ]
   },
   {
-    "__docId__": 65,
+    "__docId__": 83,
     "kind": "method",
     "name": "at",
     "memberof": "src/submodules/MultiPoint.js~MultiPoint",
@@ -1498,7 +1891,7 @@
     }
   },
   {
-    "__docId__": 66,
+    "__docId__": 84,
     "kind": "method",
     "name": "add",
     "memberof": "src/submodules/MultiPoint.js~MultiPoint",
@@ -1531,7 +1924,7 @@
     ]
   },
   {
-    "__docId__": 67,
+    "__docId__": 85,
     "kind": "method",
     "name": "remove",
     "memberof": "src/submodules/MultiPoint.js~MultiPoint",
@@ -1557,7 +1950,7 @@
     ]
   },
   {
-    "__docId__": 68,
+    "__docId__": 86,
     "kind": "file",
     "name": "src/submodules/Point.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\n/**\n\t* Implementation of rfc7946 (GeoJSON) Section 3.1.2\n\t* \n\t* Points are single coordinate geometry objects.\n\t*/\nclass Point extends Geometry {\n\t/**\n\t\t* Initializes the longitude and latitude.\n\t\t* \n\t\t*\t@param {number} [longitude=0] The initial longitude.\n\t\t*\t@param {number} [latitude=0] The initial latitude.\n\t\t*/\n\tconstructor (longitude = 0, latitude = 0) {\n\t\tsuper ('Point');\n\t\tthis [POS].add (new Coordinate (longitude, latitude));\n\t}\n\t/**\n\t\t* get longitude\n\t\t*/\n\tget longitude () {\n\t\treturn this [POS].at (0).longitude;\n\t}\n\t/**\n\t\t* set longitude\n\t\t*/\n\tset longitude (value) {\n\t\tthis [POS].at (0).longitude = value;\n\t}\n\t/**\n\t\t* set latitude\n\t\t*/\n\tget latitude () {\n\t\treturn this [POS].at (0).latitude;\n\t}\n\t/**\n\t\t* set latitude\n\t\t*/\n\tset latitude (value) {\n\t\tthis [POS].at (0).latitude = value;\n\t}\n\t/**\n\t\t* Return this point as a Coordinate type.\n\t\t* \n\t\t* @return {Coordinate} This point as a coordinate type.\n\t\t*/\n\ttoCoordinate () {\n\t\treturn new Coordinate (this.longitude, this.latitude);\n\t}\n}\nmodule.exports = Point;",
@@ -1568,7 +1961,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 69,
+    "__docId__": 87,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/Point.js",
@@ -1594,7 +1987,7 @@
     }
   },
   {
-    "__docId__": 70,
+    "__docId__": 88,
     "kind": "variable",
     "name": "Geometry",
     "memberof": "src/submodules/Point.js",
@@ -1620,7 +2013,7 @@
     }
   },
   {
-    "__docId__": 71,
+    "__docId__": 89,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/Point.js",
@@ -1646,7 +2039,7 @@
     }
   },
   {
-    "__docId__": 72,
+    "__docId__": 90,
     "kind": "class",
     "name": "Point",
     "memberof": "src/submodules/Point.js",
@@ -1664,7 +2057,7 @@
     ]
   },
   {
-    "__docId__": 73,
+    "__docId__": 91,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/Point.js~Point",
@@ -1703,7 +2096,7 @@
     ]
   },
   {
-    "__docId__": 74,
+    "__docId__": 92,
     "kind": "get",
     "name": "longitude",
     "memberof": "src/submodules/Point.js~Point",
@@ -1721,7 +2114,7 @@
     }
   },
   {
-    "__docId__": 75,
+    "__docId__": 93,
     "kind": "set",
     "name": "longitude",
     "memberof": "src/submodules/Point.js~Point",
@@ -1739,7 +2132,7 @@
     }
   },
   {
-    "__docId__": 76,
+    "__docId__": 94,
     "kind": "get",
     "name": "latitude",
     "memberof": "src/submodules/Point.js~Point",
@@ -1757,7 +2150,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 95,
     "kind": "set",
     "name": "latitude",
     "memberof": "src/submodules/Point.js~Point",
@@ -1775,7 +2168,7 @@
     }
   },
   {
-    "__docId__": 78,
+    "__docId__": 96,
     "kind": "method",
     "name": "toCoordinate",
     "memberof": "src/submodules/Point.js~Point",
@@ -1797,7 +2190,7 @@
     }
   },
   {
-    "__docId__": 79,
+    "__docId__": 97,
     "kind": "file",
     "name": "src/submodules/Polygon.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet Geometry = require ('./Geometry');\nlet POS = Geometry.coordinates;\nlet Position = require ('./Position');\nlet Point = require ('./Point');\nlet coords = Symbol ();\n/**\n  * Implementation of rfc7946 (GeoJSON) Section 3.1.6\n  */\nclass Polygon extends Geometry {\n  /**\n    * Arguments list is parsed and added. The first element is added as the last element.\n    * Minimum 4 arguments required\n    * @param {Array <Coordinate|Point>} [arguments] All arguments are added.\n    * @throws {Error} Throws error when constructor argument list is smaller than 3.\n    */\n  constructor () {\n    super ('Polygon');\n    this [coords] = [];\n    Array.from (arguments).forEach ((coord) => {\n      this.add (coord);\n    });\n  }\n  /**\n    * Add a point to the polygon.\n    * @override\n    * @param {Point} point The Point to add.\n    */\n  add (point) {\n    this [coords].push (point);\n    this.update ();\n  }\n  /**\n    * \n    */\n  remove (point) {\n    if (!(point instanceof Point)) return;\n    for (let i = 0; i < this [coords].length; i++)\n      if (point.equals (this [coords] [i])) {\n        this [coords].splice (i, 1);\n        return update ();\n      }\n  }\n  /**\n    * Update the coordinates in the polygon.\n    */\n  update () {\n    if (this [coords].length < 3) return;\n    this [POS] = new Position ();\n    this [coords].forEach ((point) => {\n      this [POS].add (point.toCoordinate ());\n    });\n    this [POS].add (this [coords] [0].toCoordinate ());\n  }\n}\n\nmodule.exports = Polygon;",
@@ -1808,7 +2201,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 80,
+    "__docId__": 98,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/Polygon.js",
@@ -1834,7 +2227,7 @@
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 99,
     "kind": "variable",
     "name": "Geometry",
     "memberof": "src/submodules/Polygon.js",
@@ -1860,7 +2253,7 @@
     }
   },
   {
-    "__docId__": 82,
+    "__docId__": 100,
     "kind": "variable",
     "name": "POS",
     "memberof": "src/submodules/Polygon.js",
@@ -1886,7 +2279,7 @@
     }
   },
   {
-    "__docId__": 83,
+    "__docId__": 101,
     "kind": "variable",
     "name": "Position",
     "memberof": "src/submodules/Polygon.js",
@@ -1912,7 +2305,7 @@
     }
   },
   {
-    "__docId__": 84,
+    "__docId__": 102,
     "kind": "variable",
     "name": "Point",
     "memberof": "src/submodules/Polygon.js",
@@ -1938,7 +2331,7 @@
     }
   },
   {
-    "__docId__": 85,
+    "__docId__": 103,
     "kind": "variable",
     "name": "coords",
     "memberof": "src/submodules/Polygon.js",
@@ -1964,7 +2357,7 @@
     }
   },
   {
-    "__docId__": 86,
+    "__docId__": 104,
     "kind": "class",
     "name": "Polygon",
     "memberof": "src/submodules/Polygon.js",
@@ -1982,7 +2375,7 @@
     ]
   },
   {
-    "__docId__": 87,
+    "__docId__": 105,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2015,7 +2408,7 @@
     ]
   },
   {
-    "__docId__": 88,
+    "__docId__": 106,
     "kind": "member",
     "name": "[coords]",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2038,7 +2431,7 @@
     }
   },
   {
-    "__docId__": 89,
+    "__docId__": 107,
     "kind": "method",
     "name": "add",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2064,7 +2457,7 @@
     "override": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 108,
     "kind": "method",
     "name": "remove",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2090,7 +2483,7 @@
     }
   },
   {
-    "__docId__": 91,
+    "__docId__": 109,
     "kind": "method",
     "name": "update",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2104,7 +2497,7 @@
     "params": []
   },
   {
-    "__docId__": 92,
+    "__docId__": 110,
     "kind": "member",
     "name": "[POS]",
     "memberof": "src/submodules/Polygon.js~Polygon",
@@ -2127,7 +2520,7 @@
     }
   },
   {
-    "__docId__": 93,
+    "__docId__": 111,
     "kind": "file",
     "name": "src/submodules/Position.js",
     "content": "let Coordinate = require ('./Coordinate');\nlet arr = Symbol ();\n/**\n  * Implementation of rfc7946 (GeoJSON) Section 3.1.1\n  * \n  * A position is an abstract, list-like structure\n  * conatining coordinates or other position objects.\n  * A Position can represent the coordinates attribute\n  * of any GeoJSON geometry object.\n  */\nclass Position {\n  /**\n    * Initializes the array, ignores all arguments.\n    */\n  constructor () {\n    this [arr] = [];\n  }\n  /**\n    * Adds a coordinate or position at an optionally provided position index.\n    * \n    * @param {Coordinate|Position} coordinate The coordinte object to add.\n    * @param (Number) [position] Index of the position object to add it to.\n    * @returns {Position} Returns 'this' object\n    * @throws {Error} If coordinate argument is not a valid type.\n    */\n  add (coordinate, position) {\n    let pos = !!position;\n    if (coordinate instanceof Coordinate) {\n      if (pos) {\n        this [arr][pos].push (coordinate);\n      } else {\n        this [arr].push (coordinate);\n      }\n    } else if (coordinate instanceof Position) {\n      if (pos) {\n        this [arr][pos].push (coordinate);\n      } else {\n        this [arr].push (coordinate);\n      }\n    } else {\n      throw new Error ('added points must be \"coordinate\" or \"position\" type');\n    }\n    return this;\n  }\n  /**\n    * Removes the first instance found of the provided Coordinate or Position.\n    * \n    * @param {Coordinate|Position} coordinate The element to remove.\n    * @return {Position} Returns 'this' object\n    */\n  remove (coordinate) {\n    if (coordinate instanceof Coordinate || coordinate instanceof Position) {\n      for (let i = 0; i < this.length; i++)\n        if (coordinate.equals (this [i])) {\n          this [arr].splice (i, 1);\n          return this;\n        }\n    } else {\n      throw new Error ('can only remove \"coordinate\" or \"position\" types');\n    }\n    return this;\n  }\n  /**\n    * Access the element at the provided index.\n    * \n    * @param {Number} index The index to access.\n    * @returns {Coordinate|Position} The element found.\n    */\n  at (index) {\n    return this [arr] [index];\n  }\n  /**\n    * Checks if the provided element is in this Position.\n    * \n    * @param {Coordinate|Position} element The element to look for.\n    * @return {boolean} Whether the element is in this Position.\n    */\n  has (element) {\n    if (!(element instanceof Coordinate || element instanceof Position))\n      throw new Error ('provided argument must be Coordinate or Position type');\n    this [arr].forEach ((_this) => {\n      if (element.equals (_this))\n        return true;\n    });\n  }\n  /**\n    * Get the Number of elements in this Position.\n    * This is a one-dimensional search\n    * and does not count sub-position coordinates or positions\n    * \n    * @returns {Number} The size of this Position.\n    */\n  size () {\n    return this [arr].length;\n  }\n  /**\n    * Check equality of this position and another position.\n    * Compares all coordinates and sub-coordinates.\n    * \n    * @param {Position} position The position to compare against.\n    * @returns {boolean} True if all coordinates and sub-coordinates are equal.\n    */\n  equals (position) {\n    if (!(position instanceof Position)) return false;\n    if (this.size () !== position.size ()) return false;\n    for (let i = 0; i < this.size (); i++)\n      if (!this.at (i).equals (position.at (i)))\n        return false;\n    return true;\n  }\n  /**\n    * @override\n    */\n  toJSON () {\n    if (this [arr].length === 1 && this [arr] [0] instanceof Coordinate)\n      return this [arr] [0].toJSON ();\n    let ret = [];\n    this [arr].forEach ((el) => {\n      ret.push (el.toJSON ());\n    });\n    return ret;\n  }\n  toString () {\n    return JSON.stringify (this, null, '  ');\n  }\n}\n\nmodule.exports = Position",
@@ -2138,7 +2531,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 94,
+    "__docId__": 112,
     "kind": "variable",
     "name": "Coordinate",
     "memberof": "src/submodules/Position.js",
@@ -2164,7 +2557,7 @@
     }
   },
   {
-    "__docId__": 95,
+    "__docId__": 113,
     "kind": "variable",
     "name": "arr",
     "memberof": "src/submodules/Position.js",
@@ -2190,7 +2583,7 @@
     }
   },
   {
-    "__docId__": 96,
+    "__docId__": 114,
     "kind": "class",
     "name": "Position",
     "memberof": "src/submodules/Position.js",
@@ -2205,7 +2598,7 @@
     "interface": false
   },
   {
-    "__docId__": 97,
+    "__docId__": 115,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/submodules/Position.js~Position",
@@ -2219,7 +2612,7 @@
     "params": []
   },
   {
-    "__docId__": 98,
+    "__docId__": 116,
     "kind": "member",
     "name": "[arr]",
     "memberof": "src/submodules/Position.js~Position",
@@ -2242,7 +2635,7 @@
     }
   },
   {
-    "__docId__": 99,
+    "__docId__": 117,
     "kind": "method",
     "name": "add",
     "memberof": "src/submodules/Position.js~Position",
@@ -2300,7 +2693,7 @@
     ]
   },
   {
-    "__docId__": 100,
+    "__docId__": 118,
     "kind": "method",
     "name": "remove",
     "memberof": "src/submodules/Position.js~Position",
@@ -2334,7 +2727,7 @@
     }
   },
   {
-    "__docId__": 101,
+    "__docId__": 119,
     "kind": "method",
     "name": "at",
     "memberof": "src/submodules/Position.js~Position",
@@ -2374,7 +2767,7 @@
     }
   },
   {
-    "__docId__": 102,
+    "__docId__": 120,
     "kind": "method",
     "name": "has",
     "memberof": "src/submodules/Position.js~Position",
@@ -2408,7 +2801,7 @@
     }
   },
   {
-    "__docId__": 103,
+    "__docId__": 121,
     "kind": "method",
     "name": "size",
     "memberof": "src/submodules/Position.js~Position",
@@ -2436,7 +2829,7 @@
     }
   },
   {
-    "__docId__": 104,
+    "__docId__": 122,
     "kind": "method",
     "name": "equals",
     "memberof": "src/submodules/Position.js~Position",
@@ -2475,7 +2868,7 @@
     }
   },
   {
-    "__docId__": 105,
+    "__docId__": 123,
     "kind": "method",
     "name": "toJSON",
     "memberof": "src/submodules/Position.js~Position",
@@ -2495,7 +2888,7 @@
     "override": true
   },
   {
-    "__docId__": 106,
+    "__docId__": 124,
     "kind": "method",
     "name": "toString",
     "memberof": "src/submodules/Position.js~Position",
@@ -2521,7 +2914,7 @@
     }
   },
   {
-    "__docId__": 107,
+    "__docId__": 125,
     "kind": "file",
     "name": "src/submodules/join-js.js",
     "content": "'use strict'\n// imports\nlet fs = require ('fs');\nlet path = require ('path');\nlet minify = require ('escompress').transform;\nlet express = require ('express');\n\nmodule.exports = function (dir) {\n\t// create router\n\tlet router = express.Router ();\n\t// find source directory relative to cwd\n\tlet source = path.join (process.cwd (), dir);\n\t// minified source\n\trouter.get ('/source.min.js', function (req, res) {\n\t\t// list the directory\n\t\tlet files = fs.readdirSync (source);\n\t\t// write the minified file to stream\n\t\tfiles.forEach ((file) => {\n\t\t\tres.write (minify (fs.readFileSync (path.join (source, file)), {}).code);\n\t\t});\n\t\t// close!\n\t\tres.end ();\n\t});\n\t// unminified\n\trouter.get ('/source.js', (req, res) => {\n\t\t// use strict for all\n\t\tres.write ('\\'use strict\\'\\n');\n\t\t// list the directory\n\t\tlet files = fs.readdirSync (source);\n\t\t// write the minified file to stream\n\t\tfiles.forEach ((file) => {\n\t\t\tres.write (fs.readFileSync (path.join (source, file)) + '\\n');\n\t\t});\n\t\t// close!\n\t\tres.end ();\n\t});\n\treturn router;\n}",
@@ -2532,7 +2925,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 108,
+    "__docId__": 126,
     "kind": "variable",
     "name": "fs",
     "memberof": "src/submodules/join-js.js",
@@ -2558,7 +2951,7 @@
     }
   },
   {
-    "__docId__": 109,
+    "__docId__": 127,
     "kind": "variable",
     "name": "path",
     "memberof": "src/submodules/join-js.js",
@@ -2584,7 +2977,7 @@
     }
   },
   {
-    "__docId__": 110,
+    "__docId__": 128,
     "kind": "variable",
     "name": "minify",
     "memberof": "src/submodules/join-js.js",
@@ -2610,7 +3003,7 @@
     }
   },
   {
-    "__docId__": 111,
+    "__docId__": 129,
     "kind": "variable",
     "name": "express",
     "memberof": "src/submodules/join-js.js",
@@ -2636,7 +3029,7 @@
     }
   },
   {
-    "__docId__": 112,
+    "__docId__": 130,
     "kind": "function",
     "name": "exports",
     "memberof": "src/submodules/join-js.js",
@@ -2672,7 +3065,7 @@
     }
   },
   {
-    "__docId__": 113,
+    "__docId__": 131,
     "kind": "file",
     "name": "src/submodules/less-live-load.js",
     "content": "'use strict'\n// express middleware to live reload less source\nfunction LESSLIVELOAD (root) {\n\t// necessary functions\n\tlet router = require ('express').Router ();\n\tlet read = require ('fs').readFileSync;\n\tlet join = require ('path').join;\n\tlet less = require ('less');\n\t// get any less file as its compiled css self! \n\trouter.get ('/:source.css', (req, res) => {\n\t\tless.render (read (join (root, req.params.source + '.less'), 'utf-8'), (err, output) => {\n\t\t\tif (err) {\n\t\t\t\tconsole.log (err, output);\n\t\t\t\treturn res.status (404);\n\t\t\t}\n\t\t\t// let em know it's css and send the compiled code\n\t\t\tres.set ('Content-Type', 'text/css');\n\t\t\tres.send (output.css);\n\t\t})\n\t});\n\n\treturn router;\n}\n\nmodule.exports = LESSLIVELOAD;",
@@ -2683,7 +3076,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 114,
+    "__docId__": 132,
     "kind": "function",
     "name": "LESSLIVELOAD",
     "memberof": "src/submodules/less-live-load.js",
@@ -2719,7 +3112,7 @@
     }
   },
   {
-    "__docId__": 115,
+    "__docId__": 133,
     "kind": "file",
     "name": "src/submodules/multipart-body-parser.js",
     "content": "'use strict'\n// imports\nlet Busboy = require ('busboy');\n// on file data callback provided the object to add to\nfunction onfiledata (body, fieldname, filename) {\n\tlet complete = Buffer.alloc (0);\n\treturn {\n\t\t// callback for file on data, just concatenate data to buffer\n\t\tondata: function (data) {\n\t\t\tcomplete = Buffer.concat ([complete, data]);\n\t\t},\n\t\t// callback for when the form is complete\n\t\tfin: function () {\n      console.log ('file end');\n\t\t\t// check what we are adding to\n\t\t\tif (Array.isArray (body [fieldname]))\n\t\t\t\t// add to array\n\t\t\t\treturn body [fieldname].push ({\n\t\t\t\t\tname: filename,\n\t\t\t\t\tdata: complete\n\t\t\t\t});\n\t\t\t// add to object\n\t\t\tbody [fieldname] = {\n\t\t\t\tname: filename,\n\t\t\t\tdata: complete\n\t\t\t}\n\t\t}\n\t}\n}\n// on fields\nfunction onfielddata (body, fieldname, value) {\n\treturn {\n\t\tfin: function () {\n      console.log ('field end');\n\t\t\tif (Array.isArray (body [fieldname]))\n\t\t\t\treturn body [fieldname].push (value);\n\t\t\tbody [fieldname] = value;\n\t\t}\n\t}\n}\n// when everything is done\nfunction onfinishload (body, fields, fins, next) {\n\treturn function () {\n\t\t// map to count the number of times each field occurs\n\t\tlet map = new Map ();\n\t\t// iterate over each field\n\t\tfields.forEach ((field) => {\n\t\t\t// either increment occurences or set it to 0\t\t\n\t\t\tif (map.has (field)) return map.set (field, map.get (field) + 1);\n\t\t\tmap.set (field, 0);\n\t\t});\n\t\t// iterate over k/v in map\n\t\tmap.forEach ((v, k) => {\n\t\t\t// only for v not zero, make an array\n\t\t\tif (v) body [k] = [];\n\t\t});\n\t\t// now call all finish methods\n\t\tfins.forEach ((fn) => {fn ()});\n\t\tnext ();\n\t}\n}\n// export the middleware\nmodule.exports = function (req, res, next) {\n\t// busboy instance\n\tlet busboy = new Busboy ({headers: req.headers});\n\t// verify body exists\n\tif (!req.body)\n\t\treq.body = {};\n\t// fields and finish functions\n\tlet fields = [];\n\tlet fins = [];\n\t// file events\n\tbusboy.on ('file', (fieldname, file, filename) => {\n    console.log ('file start');\n\t\tfields.push (fieldname);\n\t\tlet callbacks = onfiledata (req.body, fieldname, filename);\n\t\tfile.on ('data', callbacks.ondata);\n\t\tfile.on ('end', () => {console.log ('file loaded'); fins.push (callbacks.fin)});\n\t});\n\t// field events\n\tbusboy.on ('field', (fieldname, value) => {\n    console.log ('field start');\n\t\tfields.push (fieldname);\n\t\tfins.push (onfielddata (req.body, fieldname, value).fin);\n\t});\n\t// done!\n\tbusboy.on ('finish', onfinishload (req.body, fields, fins, next));\n\treq.pipe (busboy);\n}",
@@ -2730,7 +3123,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 116,
+    "__docId__": 134,
     "kind": "variable",
     "name": "Busboy",
     "memberof": "src/submodules/multipart-body-parser.js",
@@ -2756,7 +3149,7 @@
     }
   },
   {
-    "__docId__": 117,
+    "__docId__": 135,
     "kind": "function",
     "name": "onfiledata",
     "memberof": "src/submodules/multipart-body-parser.js",
@@ -2804,7 +3197,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 136,
     "kind": "function",
     "name": "onfielddata",
     "memberof": "src/submodules/multipart-body-parser.js",
@@ -2852,7 +3245,7 @@
     }
   },
   {
-    "__docId__": 119,
+    "__docId__": 137,
     "kind": "function",
     "name": "onfinishload",
     "memberof": "src/submodules/multipart-body-parser.js",
@@ -2906,7 +3299,7 @@
     }
   },
   {
-    "__docId__": 120,
+    "__docId__": 138,
     "kind": "function",
     "name": "exports",
     "memberof": "src/submodules/multipart-body-parser.js",
@@ -2949,7 +3342,7 @@
     ]
   },
   {
-    "__docId__": 122,
+    "__docId__": 140,
     "kind": "external",
     "name": "Infinity",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
@@ -2961,7 +3354,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 123,
+    "__docId__": 141,
     "kind": "external",
     "name": "NaN",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
@@ -2973,7 +3366,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 124,
+    "__docId__": 142,
     "kind": "external",
     "name": "undefined",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
@@ -2985,7 +3378,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 125,
+    "__docId__": 143,
     "kind": "external",
     "name": "null",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
@@ -2997,7 +3390,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 126,
+    "__docId__": 144,
     "kind": "external",
     "name": "Object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -3009,7 +3402,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 127,
+    "__docId__": 145,
     "kind": "external",
     "name": "object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -3021,7 +3414,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 128,
+    "__docId__": 146,
     "kind": "external",
     "name": "Function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -3033,7 +3426,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 129,
+    "__docId__": 147,
     "kind": "external",
     "name": "function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -3045,7 +3438,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 130,
+    "__docId__": 148,
     "kind": "external",
     "name": "Boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -3057,7 +3450,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 131,
+    "__docId__": 149,
     "kind": "external",
     "name": "boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -3069,7 +3462,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 132,
+    "__docId__": 150,
     "kind": "external",
     "name": "Symbol",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
@@ -3081,7 +3474,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 133,
+    "__docId__": 151,
     "kind": "external",
     "name": "Error",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
@@ -3093,7 +3486,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 152,
     "kind": "external",
     "name": "EvalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
@@ -3105,7 +3498,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 135,
+    "__docId__": 153,
     "kind": "external",
     "name": "InternalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
@@ -3117,7 +3510,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 154,
     "kind": "external",
     "name": "RangeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
@@ -3129,7 +3522,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 137,
+    "__docId__": 155,
     "kind": "external",
     "name": "ReferenceError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
@@ -3141,7 +3534,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 156,
     "kind": "external",
     "name": "SyntaxError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
@@ -3153,7 +3546,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 157,
     "kind": "external",
     "name": "TypeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
@@ -3165,7 +3558,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 140,
+    "__docId__": 158,
     "kind": "external",
     "name": "URIError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
@@ -3177,7 +3570,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 141,
+    "__docId__": 159,
     "kind": "external",
     "name": "Number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -3189,7 +3582,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 160,
     "kind": "external",
     "name": "number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -3201,7 +3594,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 161,
     "kind": "external",
     "name": "Date",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
@@ -3213,7 +3606,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 162,
     "kind": "external",
     "name": "String",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -3225,7 +3618,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 163,
     "kind": "external",
     "name": "string",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -3237,7 +3630,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 146,
+    "__docId__": 164,
     "kind": "external",
     "name": "RegExp",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
@@ -3249,7 +3642,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 165,
     "kind": "external",
     "name": "Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
@@ -3261,7 +3654,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 148,
+    "__docId__": 166,
     "kind": "external",
     "name": "Int8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
@@ -3273,7 +3666,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 149,
+    "__docId__": 167,
     "kind": "external",
     "name": "Uint8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
@@ -3285,7 +3678,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 150,
+    "__docId__": 168,
     "kind": "external",
     "name": "Uint8ClampedArray",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
@@ -3297,7 +3690,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 151,
+    "__docId__": 169,
     "kind": "external",
     "name": "Int16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
@@ -3309,7 +3702,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 152,
+    "__docId__": 170,
     "kind": "external",
     "name": "Uint16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
@@ -3321,7 +3714,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 153,
+    "__docId__": 171,
     "kind": "external",
     "name": "Int32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
@@ -3333,7 +3726,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 154,
+    "__docId__": 172,
     "kind": "external",
     "name": "Uint32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
@@ -3345,7 +3738,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 155,
+    "__docId__": 173,
     "kind": "external",
     "name": "Float32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
@@ -3357,7 +3750,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 156,
+    "__docId__": 174,
     "kind": "external",
     "name": "Float64Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
@@ -3369,7 +3762,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 157,
+    "__docId__": 175,
     "kind": "external",
     "name": "Map",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
@@ -3381,7 +3774,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 158,
+    "__docId__": 176,
     "kind": "external",
     "name": "Set",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
@@ -3393,7 +3786,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 159,
+    "__docId__": 177,
     "kind": "external",
     "name": "WeakMap",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
@@ -3405,7 +3798,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 160,
+    "__docId__": 178,
     "kind": "external",
     "name": "WeakSet",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
@@ -3417,7 +3810,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 161,
+    "__docId__": 179,
     "kind": "external",
     "name": "ArrayBuffer",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
@@ -3429,7 +3822,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 162,
+    "__docId__": 180,
     "kind": "external",
     "name": "DataView",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
@@ -3441,7 +3834,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 163,
+    "__docId__": 181,
     "kind": "external",
     "name": "JSON",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
@@ -3453,7 +3846,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 164,
+    "__docId__": 182,
     "kind": "external",
     "name": "Promise",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
@@ -3465,7 +3858,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 165,
+    "__docId__": 183,
     "kind": "external",
     "name": "Generator",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
@@ -3477,7 +3870,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 166,
+    "__docId__": 184,
     "kind": "external",
     "name": "GeneratorFunction",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
@@ -3489,7 +3882,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 167,
+    "__docId__": 185,
     "kind": "external",
     "name": "Reflect",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
@@ -3501,7 +3894,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 168,
+    "__docId__": 186,
     "kind": "external",
     "name": "Proxy",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
@@ -3514,7 +3907,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 170,
+    "__docId__": 188,
     "kind": "external",
     "name": "CanvasRenderingContext2D",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
@@ -3526,7 +3919,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 171,
+    "__docId__": 189,
     "kind": "external",
     "name": "DocumentFragment",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
@@ -3538,7 +3931,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 190,
     "kind": "external",
     "name": "Element",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
@@ -3550,7 +3943,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 173,
+    "__docId__": 191,
     "kind": "external",
     "name": "Event",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
@@ -3562,7 +3955,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 174,
+    "__docId__": 192,
     "kind": "external",
     "name": "Node",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
@@ -3574,7 +3967,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 175,
+    "__docId__": 193,
     "kind": "external",
     "name": "NodeList",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
@@ -3586,7 +3979,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 176,
+    "__docId__": 194,
     "kind": "external",
     "name": "XMLHttpRequest",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
@@ -3598,7 +3991,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 177,
+    "__docId__": 195,
     "kind": "external",
     "name": "AudioContext",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",

@@ -1,11 +1,16 @@
 {
   "coverage": "100%",
-  "expectCount": 54,
-  "actualCount": 54,
+  "expectCount": 64,
+  "actualCount": 64,
   "files": {
     "src/submodules/Coordinate.js": {
       "expectCount": 5,
       "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/submodules/Feature.js": {
+      "expectCount": 10,
+      "actualCount": 10,
       "undocumentLines": []
     },
     "src/submodules/Geometry.js": {

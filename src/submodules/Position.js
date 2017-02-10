@@ -123,6 +123,10 @@ class Position {
   toString () {
     return JSON.stringify (this, null, '  ');
   }
+
+  static parse (array) {
+    let ret = new Position ();
+  }
 }
 
 module.exports = Position

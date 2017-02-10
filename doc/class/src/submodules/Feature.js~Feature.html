@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">Path | API Document</title>
+  <title data-ice="title">Feature | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -54,11 +54,11 @@
   
   
   
-  <span data-ice="source">| <span><a href="file/src/client side/path.js.html#lineNumber5">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/submodules/Feature.js.html#lineNumber7">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">Path</h1>
+  <h1 data-ice="name">Feature</h1>
 
   
 
@@ -74,7 +74,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>Represents a uri.</p>
+  <div class="description" data-ice="description"><p>Represents a GeoJSON feature.</p>
 </div>
   
 
@@ -88,41 +88,7 @@
 </div>
 
 
-<div data-ice="staticMethodSummary"><h2>Static Method Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Static Public Methods</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      <span data-ice="static">static</span>
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#static-method-parameterizeSegment">parameterizeSegment</a></span></span><span data-ice="signature">(segment: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Method to replace parameters of one segment.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
+
 <div data-ice="constructorSummary"><h2>Constructor Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Constructor</td></tr></thead>
   <tbody>
@@ -140,13 +106,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(initial: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(geometry: <span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Joins all arguments provided to the constructor.</p>
+        <div data-ice="description"><p>Initialize the feature with a geometry.</p>
 </div>
       </div>
     </td>
@@ -175,13 +141,97 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-member-path">path</a></span></span><span data-ice="signature">: <span>*</span></span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-member-bbox">bbox</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The path itself.</p>
+        <div data-ice="description"><p>The bounds for the geometry.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      <span class="kind" data-ice="kind">set</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-set-bbox_end">bbox_end</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Set the end corner of the bbox.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      <span class="kind" data-ice="kind">set</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-set-bbox_start">bbox_start</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Set the start corner of the bbox.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-member-geometry">geometry</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The geometry object to wrap.</p>
 </div>
       </div>
     </td>
@@ -210,13 +260,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-method-join">join</a></span></span><span data-ice="signature">(): <span><a href="class/src/client side/path.js~Path.html">Path</a></span></span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-method-remove">remove</a></span></span><span data-ice="signature">(k: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Joins this path with any number of paths or strings.</p>
+        <div data-ice="description"><p>Un-set a property key/value pair.</p>
 </div>
       </div>
     </td>
@@ -238,13 +288,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-method-parameterize">parameterize</a></span></span><span data-ice="signature">(An: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/client side/path.js~Path.html">Path</a></span></span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-method-set">set</a></span></span><span data-ice="signature">(k: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, v: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>If any segments contain parameters, insert the porovided value into that spot.</p>
+        <div data-ice="description"><p>Set a property key/value pair.</p>
 </div>
       </div>
     </td>
@@ -266,35 +316,7 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-method-segmentize">segmentize</a></span></span><span data-ice="signature">(): <span>Array </span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>&gt;</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Breaks the path on &apos;/&apos; characters.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-method-toJSON">toJSON</a></span></span><span data-ice="signature">(): <span>*</span></span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-method-toJSON">toJSON</a></span></span><span data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
@@ -321,7 +343,7 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/client side/path.js~Path.html#instance-method-toString">toString</a></span></span><span data-ice="signature">(): <span>*</span></span>
+          <span data-ice="name"><span><a href="class/src/submodules/Feature.js~Feature.html#instance-method-toString">toString</a></span></span><span data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
@@ -342,83 +364,7 @@
 
 
 
-<div data-ice="staticMethodDetails"><h2 data-ice="title">Static Public Methods</h2>
 
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-method-parameterizeSegment">
-    <span class="access" data-ice="access">public</span>
-    <span data-ice="static">static</span>
-    
-    
-    
-    
-    <span data-ice="name">parameterizeSegment</span><span data-ice="signature">(segment: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber74">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Method to replace parameters of one segment.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">segment</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>One part of a path to replace.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>The path with replaced parameters.</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
 <div data-ice="constructorDetails"><h2 data-ice="title">Public Constructors</h2>
 
 <div class="detail" data-ice="detail">
@@ -429,18 +375,18 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(initial: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(geometry: <span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber9">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber13">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Joins all arguments provided to the constructor.</p>
+  <div data-ice="description"><p>Initialize the feature with a geometry.</p>
 </div>
 
   
@@ -454,11 +400,11 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">initial</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: </li></ul></td>
-      <td data-ice="description"></td>
+      <td data-ice="name" data-depth="0">geometry</td>
+      <td data-ice="type"><span><a href="class/src/submodules/Geometry.js~Geometry.html">Geometry</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The initial geometry to wrap.</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -486,25 +432,157 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-path">
+  <h3 data-ice="anchor" id="instance-member-bbox">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">path</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">bbox</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber21">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The path itself.</p>
+  <div data-ice="description"><p>The bounds for the geometry.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-set-bbox_end">
+    <span class="access" data-ice="access">public</span>
+    
+    <span class="kind" data-ice="kind">set</span>
+    
+    
+    
+    <span data-ice="name">bbox_end</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber27">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Set the end corner of the bbox.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-set-bbox_start">
+    <span class="access" data-ice="access">public</span>
+    
+    <span class="kind" data-ice="kind">set</span>
+    
+    
+    
+    <span data-ice="name">bbox_start</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber35">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Set the start corner of the bbox.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-geometry">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span data-ice="name">geometry</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber17">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The geometry object to wrap.</p>
 </div>
 
   
@@ -533,82 +611,25 @@
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-join">
+  <h3 data-ice="anchor" id="instance-method-remove">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">join</span><span data-ice="signature">(): <span><a href="class/src/client side/path.js~Path.html">Path</a></span></span>
+    <span data-ice="name">remove</span><span data-ice="signature">(k: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber57">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Joins this path with any number of paths or strings.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>A new path created from the combined paths.</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-parameterize">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">parameterize</span><span data-ice="signature">(An: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/client side/path.js~Path.html">Path</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber61">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>If any segments contain parameters, insert the porovided value into that spot.</p>
+  <div data-ice="description"><p>Un-set a property key/value pair.</p>
 </div>
 
   
@@ -622,11 +643,10 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">An</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="name" data-depth="0">k</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>object for which the keys are parameters and the values are
-the value to insert.</p>
+      <td data-ice="description"><p>The key to un-set.</p>
 </td>
     </tr>
 </tbody>
@@ -639,8 +659,8 @@ the value to insert.</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="class/src/client side/path.js~Path.html">Path</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>A new path with the parameters replaced with values.</p>
+          <td class="return-type" data-ice="returnType"><span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Returns this object.</p>
 </td>
         </tr>
       </tbody>
@@ -665,30 +685,54 @@ the value to insert.</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-segmentize">
+  <h3 data-ice="anchor" id="instance-method-set">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">segmentize</span><span data-ice="signature">(): <span>Array </span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>&gt;</span>
+    <span data-ice="name">set</span><span data-ice="signature">(k: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, v: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber19">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber47">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Breaks the path on &apos;/&apos; characters.</p>
+  <div data-ice="description"><p>Set a property key/value pair.</p>
 </div>
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">k</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The key to set.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">v</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The value to set.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
   <div class="return-params" data-ice="returnParams">
@@ -696,8 +740,8 @@ the value to insert.</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type" data-ice="returnType"><span>Array </span>&lt;<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>&gt;</td>
-          <td class="return-desc" data-ice="returnDescription"><p>The path split at &apos;/&apos; chartacters.</p>
+          <td class="return-type" data-ice="returnType"><span><a href="class/src/submodules/Feature.js~Feature.html">Feature</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Returns this object.</p>
 </td>
         </tr>
       </tbody>
@@ -733,7 +777,7 @@ the value to insert.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber118">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
@@ -788,7 +832,7 @@ the value to insert.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/client side/path.js.html#lineNumber122">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/submodules/Feature.js.html#lineNumber82">source</a></span></span>
     </span>
   </h3>
 
