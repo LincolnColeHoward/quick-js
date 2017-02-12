@@ -32,7 +32,7 @@ class Geometry {
   }
   /**
     * @override
-    * @return {Geometry} An object containing a type and position. 
+    * @return {Object} An object containing a type and position. 
     */
   toJSON () {
     return {
@@ -40,6 +40,10 @@ class Geometry {
       coordinates: this [POS].toJSON ()
     }
   }
+  /**
+    * @override
+    * @return {String} Serialized JSON of this object
+    */
   toString () {
     return JSON.stringify (this, null, '  ');
   }

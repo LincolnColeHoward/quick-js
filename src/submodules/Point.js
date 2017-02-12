@@ -49,17 +49,5 @@ class Point extends Geometry {
 	toCoordinate () {
 		return new Coordinate (this.longitude, this.latitude);
 	}
-	/**
-		* Parse either a string or json object as a point.
-		* 
-		* @param obj {Object|String} obj The point to parse.
-		* @return {Point} The parsed point.
-		*/
-	static parse (obj) {
-  	if (typeof obj === 'string' || obj instanceof String)
-      obj = JSON.parse (obj);
-    if (!obj.type === 'point') return;
-    return new Point (obj.coordinates [0], obj.coordinates [1]);
-	}
 }
 module.exports = Point;

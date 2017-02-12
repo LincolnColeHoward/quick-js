@@ -126,6 +126,16 @@ class Position {
 
   static parse (array) {
     let ret = new Position ();
+    if (array.length === 2 && typeof array [0] === 'number' && typeof array [1] === 'number')
+      return ret.add (new Coordinate (array [0], array [1]));
+    array.forEach ((coord) => {
+      if (Array.isArray (coord [0])) {
+        ret.add (Position.parse (coord));
+      } else {
+        ret.add (new Coordinate (coord [0], coord [1]))
+      }
+    });
+    return ret;
   }
 }
 
