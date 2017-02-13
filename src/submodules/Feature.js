@@ -58,6 +58,29 @@ class Feature {
     delete this [props] [k];
     return this;
   }
+
+  get (k) {
+    return this [props] [k];
+  }
+  /**
+    * Equality comparison.
+    * 
+    * @param {Feature} feature The Feature to compare to.
+    * @return {boolean} True if equal, otherwise false.
+    **/
+  equals (feature) {
+    let geo = this.geometry.equals (feature.geometry);
+    if (!geo) return false;
+    let bbox = this.bbox.end.longitude === feature.bbox.end.longitude
+      && this.bbox.end.latitude === feature.bbox.end.latitude
+      && this.bbox.start.longitude === feature.bbox.start.longitude
+      && this.bbox.start.latitude === feature.bbox.start.latitude;
+    if (!bbox) return false;
+    for (let k in this [props])
+      if (feature.get (k) !== this.get (k))
+        return false;
+    return true;
+  }
   /**
     * @override
     */

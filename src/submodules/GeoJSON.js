@@ -3,5 +3,7 @@ exports.MultiPoint = require ('./MultiPoint');
 exports.LineString = require ('./LineString');
 exports.MultiLineString = require ('./MultiLineString');
 exports.Polygon = require ('./Polygon');
+exports.Feature = require ('./Feature');
+exports.FeatureCollection = require ('./FeatureCollection');
 exports.Parser = require ('./Parser');
 exports.geo = require ('../client side/geolocation');
