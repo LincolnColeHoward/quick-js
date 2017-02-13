@@ -22,7 +22,7 @@ class FeatureCollection {
     return this;
   }
   get (index) {
-    return this [features] [i];
+    return this [features] [index];
   }
   toJSON () {
     return {
