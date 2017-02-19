@@ -37,7 +37,7 @@ class Coordinate {
   }
   /** @override */
   toJSON () {
-    return [this.longitude, this.latitude];
+    return [this.latitude, this.longitude];
   }
   toString () {
     return JSON.stringify (this, null, '  ');
