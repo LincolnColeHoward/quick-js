@@ -24,6 +24,9 @@ class FeatureCollection {
   get (index) {
     return this [features] [index];
   }
+  forEach (cb) {
+    this [features].forEach (cb);
+  }
   toJSON () {
     return {
       type: 'FeatureCollection',
